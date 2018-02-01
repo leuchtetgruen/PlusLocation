@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">PlusLocation</string>
+    <string name="STANDARD_CODE">9F4MGCC5+8Q</string>
+    <string name="STANDARD_CODE_DESCRIPTION">Fernsehturm Berlin</string>
 </resources>

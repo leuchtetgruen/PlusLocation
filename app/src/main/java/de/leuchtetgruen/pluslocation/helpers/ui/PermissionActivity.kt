@@ -5,7 +5,7 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 
-class PermissionActivity : AppCompatActivity() {
+open class PermissionActivity : AppCompatActivity() {
 
     private var listener: PermissionListener? = null
     private var requestCode: Int = 0

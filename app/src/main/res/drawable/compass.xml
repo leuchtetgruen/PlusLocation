@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="222dp"
+    android:height="222dp"
+    android:viewportWidth="222"
+    android:viewportHeight="222">
+
+    <group
+        android:name="Group"
+        android:translateX="-39.000000"
+        android:translateY="-39.000000">
+        <group
+            android:name="Compass-Needle"
+            android:translateX="40.000000"
+            android:translateY="40.000000">
+            <group
+                android:name="TriangleLeft-+-TriangleRight"
+                android:translateX="73.333333"
+                android:translateY="11.733333">
+                <path
+                    android:name="TriangleLeft"
+                    android:fillColor="#000000"
+                    android:fillType="evenOdd"
+                    android:strokeWidth="1"
+                    android:pathData="M37.2194305,1.46666667 L37.2194305,44.8033501 L36.6666667,44.3666667
+L0.368509213,73.0422111 L0.368509213,72.6 L36.6666667,0.366666667
+L37.2194305,1.46666667 Z" />
+                <path
+                    android:name="TriangleRight"
+                    android:fillColor="#D8D8D8"
+                    android:fillType="evenOdd"
+                    android:strokeWidth="1"
+                    android:pathData="M37.029703,1.83333333 L72.2442244,72.9666667 L37.029703,44.7278057
+L37.029703,1.83333333 Z" />
+            </group>
+        </group>
+    </group>
+</vector>
