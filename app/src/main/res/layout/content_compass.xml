@@ -5,8 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="de.leuchtetgruen.pluslocation.ui.activities.CompassActivity"
-    android:background="@color/background"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:theme="@style/AppTheme"
+    >
 
 
     <TextView
@@ -28,19 +29,9 @@
         android:layout_centerHorizontal="true"
         android:fontFamily="monospace"
         android:text="@string/STANDARD_CODE"
-        android:textColor="@color/colorLight"
         android:layout_marginTop="5dp"
         />
 
-
-
-    <ImageView
-        android:id="@+id/imgCompass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        app:srcCompat="@drawable/compass" />
 
     <ImageView
         android:id="@+id/imgCompassNESW"
@@ -49,6 +40,17 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         app:srcCompat="@drawable/nesw_compass" />
+
+    <ImageView
+        android:id="@+id/imgCompass"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/compass"
+        android:background="@color/transparent"/>
+
+
 
     <TextView
         android:id="@+id/txtDistance"

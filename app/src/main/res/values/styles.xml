@@ -2,10 +2,17 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:background">@color/background</item>
+        <item name="android:textColor">@color/colorLight</item>
+    </style>
+
+    <style name="BottomSheet" parent="AppTheme">
+        <item name="android:background">@color/backgroundBottomSheet</item>
+    </style>
+
+    <style name="BottomSheetHeadline" parent="TextAppearance.AppCompat.Headline">
+        <item name="android:textColor">@color/colorLight</item>
     </style>
 
 </resources>
