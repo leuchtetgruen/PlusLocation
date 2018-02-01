@@ -7,8 +7,9 @@ import android.hardware.SensorManager
 import android.net.Uri
 import de.leuchtetgruen.pluslocation.businessobjects.WGS84Coordinates
 import de.leuchtetgruen.pluslocation.helpers.HeadingProviderTask
-import de.leuchtetgruen.pluslocation.helpers.SavedCode
+import de.leuchtetgruen.pluslocation.persistence.SavedCode
 import de.leuchtetgruen.pluslocation.ui.activities.CompassActivity
+import de.leuchtetgruen.pluslocation.ui.activities.EnterCodeActivity
 
 class CompassViewModel(private val app: Application?) : AndroidViewModel(app!!), LifecycleObserver, HeadingProviderTask.HeadingListener {
 
@@ -92,6 +93,7 @@ class CompassViewModel(private val app: Application?) : AndroidViewModel(app!!),
         headingProviderTask.stop()
     }
 
+    // Button handler
     fun showCurrentDestinationOnMap() {
         if (targetCoordinate== null) {
             return
@@ -102,6 +104,11 @@ class CompassViewModel(private val app: Application?) : AndroidViewModel(app!!),
         mapIntent.`package` = "com.google.android.apps.maps"
 
         app?.startActivity(mapIntent)
+    }
+
+
+    fun enterCode() {
+        app?.startActivity(EnterCodeActivity.intentTo(app))
     }
 
 

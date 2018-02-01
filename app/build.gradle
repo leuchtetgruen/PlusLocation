@@ -42,4 +42,7 @@ dependencies {
     compile "android.arch.lifecycle:extensions:1.1.0"
     annotationProcessor "android.arch.lifecycle:compiler:1.1.0"
 
+    compile "android.arch.persistence.room:runtime:1.1.0-alpha1"
+    kapt "android.arch.persistence.room:compiler:1.1.0-alpha1"
+
 }

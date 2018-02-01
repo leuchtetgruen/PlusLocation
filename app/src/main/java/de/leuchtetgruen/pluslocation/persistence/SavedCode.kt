@@ -1,9 +1,10 @@
-package de.leuchtetgruen.pluslocation.helpers
+package de.leuchtetgruen.pluslocation.persistence
 
 import android.content.Context
 import de.leuchtetgruen.pluslocation.businessobjects.WGS84Coordinates
 import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.OpenLocationCode
 import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.extensions.center
+import de.leuchtetgruen.pluslocation.helpers.Constants
 
 object SavedCode {
     private val CODE = "code"
@@ -27,6 +28,6 @@ object SavedCode {
 
     fun savedName(context : Context) : String {
         val sharedPreferences = context.getSharedPreferences(PREFERENCE_FILE, Context.MODE_PRIVATE)
-        return sharedPreferences.getString(NAME, "Custom destination")
+        return sharedPreferences.getString(NAME, Constants.TV_TOWER_BLN_NAME)
     }
 }
