@@ -28,11 +28,15 @@ class CompassViewModel(private val app: Application?) : AndroidViewModel(app!!),
     val needleRotation: MutableLiveData<Float> = MutableLiveData()
     val compassAndNeedleOpacity : MutableLiveData<Float> = MutableLiveData()
 
+    val targetName : MutableLiveData<String> = MutableLiveData()
+    val targetCode : MutableLiveData<String> = MutableLiveData()
+
+
 
     fun updateCurrentLocation(currentCoordinate : WGS84Coordinates) {
         this.currentCoordinate = currentCoordinate
 
-        updateValues()
+        updateDistance()
     }
 
     override fun headingChanged(heading: Float) {
@@ -54,16 +58,13 @@ class CompassViewModel(private val app: Application?) : AndroidViewModel(app!!),
         }
     }
 
-
-
-
     fun reloadSavedData() {
         targetCoordinate  = SavedCode.savedLocation(this.getApplication())
+
+        targetCode.value = SavedCode.savedCode(this.getApplication())
+        targetName.value = SavedCode.savedName(this.getApplication())
     }
 
-    private fun updateValues() {
-        updateDistance()
-    }
 
     private fun updateDistance() {
         if ((currentCoordinate == null) || (targetCoordinate == null)) return

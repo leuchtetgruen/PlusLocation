@@ -27,6 +27,6 @@ object SavedCode {
 
     fun savedName(context : Context) : String {
         val sharedPreferences = context.getSharedPreferences(PREFERENCE_FILE, Context.MODE_PRIVATE)
-        return sharedPreferences.getString(NAME, "")
+        return sharedPreferences.getString(NAME, "Custom destination")
     }
 }

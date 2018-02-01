@@ -28,14 +28,14 @@ class CompassActivity : PermissionActivity(), PermissionActivity.PermissionListe
 
     // Observers
     private var distanceObserver: Observer<String> = Observer { txtDistance.text = it }
+    private var destinationNameObeserver : Observer<String> = Observer { txtDestination.text = it }
+    private var destinationCodeObserver : Observer<String> = Observer { txtDestinationCode.text = it }
     private var rotationObserver: Observer<Float> = Observer { imgCompassNESW.rotation = it!! }
     private var needleRotationObserver : Observer<Float> = Observer { imgCompass.rotation = it!! }
     private var opacityObserver : Observer<Float> = Observer {
         imgCompassNESW.alpha = it!!
         imgCompass.alpha = it!!
     }
-
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,6 +84,8 @@ class CompassActivity : PermissionActivity(), PermissionActivity.PermissionListe
         viewModel.compassRotation.observe(this, rotationObserver)
         viewModel.needleRotation.observe(this, needleRotationObserver)
         viewModel.compassAndNeedleOpacity.observe(this, opacityObserver)
+        viewModel.targetName.observe(this, destinationNameObeserver)
+        viewModel.targetCode.observe(this, destinationCodeObserver)
 
         lifecycle.addObserver(viewModel)
     }
@@ -93,6 +95,8 @@ class CompassActivity : PermissionActivity(), PermissionActivity.PermissionListe
         viewModel.compassRotation.removeObserver(rotationObserver)
         viewModel.needleRotation.removeObserver(needleRotationObserver)
         viewModel.compassAndNeedleOpacity.removeObserver(opacityObserver)
+        viewModel.targetName.removeObserver(destinationNameObeserver)
+        viewModel.targetCode.removeObserver(destinationCodeObserver)
 
         lifecycle.removeObserver(viewModel)
     }
