@@ -3,12 +3,12 @@
     <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Group" transform="translate(-39.000000, -39.000000)">
+        <g id="Compass" transform="translate(-39.000000, -39.000000)">
             <g id="Compass-Needle" transform="translate(40.000000, 40.000000)">
-                <circle id="Oval-1" stroke="#979797" cx="110" cy="110" r="110"></circle>
+                <circle id="Oval-1" stroke="#757575" cx="110" cy="110" r="110"></circle>
                 <g id="TriangleLeft-+-TriangleRight" transform="translate(73.333333, 11.733333)">
-                    <path d="M37.2194305,1.46666667 L37.2194305,44.8033501 L36.6666667,44.3666667 L0.368509213,73.0422111 L0.368509213,72.6 L36.6666667,0.366666667 L37.2194305,1.46666667 Z" id="TriangleLeft" fill="#000000"></path>
-                    <path d="M37.029703,1.83333333 L72.2442244,72.9666667 L37.029703,44.7278057 L37.029703,1.83333333 Z" id="TriangleRight" fill="#D8D8D8"></path>
+                    <path d="M37.2194305,1.46666667 L37.2194305,44.8033501 L36.6666667,44.3666667 L0.368509213,73.0422111 L0.368509213,72.6 L36.6666667,0.366666667 L37.2194305,1.46666667 Z" id="TriangleLeft" fill="#C62828"></path>
+                    <path d="M37.029703,1.83333333 L72.2442244,72.9666667 L37.029703,44.7278057 L37.029703,1.83333333 Z" id="TriangleRight" fill="#FFFFFF"></path>
                 </g>
             </g>
         </g>

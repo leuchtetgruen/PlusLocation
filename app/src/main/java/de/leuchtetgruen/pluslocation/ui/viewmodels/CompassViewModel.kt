@@ -2,13 +2,15 @@ package de.leuchtetgruen.pluslocation.ui.viewmodels
 
 import android.app.Application
 import android.arch.lifecycle.*
+import android.content.Intent
 import android.hardware.SensorManager
+import android.net.Uri
 import de.leuchtetgruen.pluslocation.businessobjects.WGS84Coordinates
 import de.leuchtetgruen.pluslocation.helpers.HeadingProviderTask
 import de.leuchtetgruen.pluslocation.helpers.SavedCode
 import de.leuchtetgruen.pluslocation.ui.activities.CompassActivity
 
-class CompassViewModel(app: Application?) : AndroidViewModel(app!!), LifecycleObserver, HeadingProviderTask.HeadingListener {
+class CompassViewModel(private val app: Application?) : AndroidViewModel(app!!), LifecycleObserver, HeadingProviderTask.HeadingListener {
 
     companion object {
         fun create(activity: CompassActivity) : CompassViewModel {
@@ -87,6 +89,18 @@ class CompassViewModel(app: Application?) : AndroidViewModel(app!!), LifecycleOb
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     private fun onStop() {
         headingProviderTask.stop()
+    }
+
+    fun showCurrentDestinationOnMap() {
+        if (targetCoordinate== null) {
+            return
+        }
+
+        val gmmIntentUri = Uri.parse("geo:" + targetCoordinate!!.latitude + "," + targetCoordinate!!.longitude)
+        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+        mapIntent.`package` = "com.google.android.apps.maps"
+
+        app?.startActivity(mapIntent)
     }
 
 

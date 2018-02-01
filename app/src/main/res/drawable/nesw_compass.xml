@@ -6,36 +6,36 @@
     android:viewportHeight="302">
 
     <group
-        android:name="Group"
+        android:name="Compass"
         android:translateX="1.000000"
         android:translateY="1.000000">
         <path
             android:name="Oval-2"
             android:fillType="evenOdd"
-            android:strokeColor="#979797"
+            android:strokeColor="#B0BEC5"
             android:strokeWidth="1"
             android:pathData="M 150 0 C 232.842712475 0 300 67.1572875254 300 150 C 300 232.842712475 232.842712475 300 150 300 C 67.1572875254 300 0 232.842712475 0 150 C 0 67.1572875254 67.1572875254 0 150 0 Z" />
         <path
             android:name="W"
-            android:fillColor="#000000"
+            android:fillColor="#ECEFF1"
             android:fillType="evenOdd"
             android:strokeWidth="1"
             android:pathData="M 16.2290039 141.588867 L 18.6635742 152.091797 L 21.581543 141.588867 L 23.4799805 141.588867 L 26.3979492 152.091797 L 28.8325195 141.588867 L 30.7485352 141.588867 L 27.355957 154.5 L 25.519043 154.5 L 22.5395508 143.794922 L 19.5424805 154.5 L 17.7055664 154.5 L 14.3305664 141.588867 Z" />
         <path
             android:name="N"
-            android:fillColor="#000000"
+            android:fillColor="#C62828"
             android:fillType="evenOdd"
             android:strokeWidth="1"
-            android:pathData="M 144.871582 15.5888672 L 146.937012 15.5888672 L 153.458496 26.0478516 L 153.458496 15.5888672 L 155.119629 15.5888672 L 155.119629 28.5 L 153.159668 28.5 L 146.541504 18.0498047 L 146.541504 28.5 L 144.871582 28.5 Z" />
+            android:pathData="M 144.871582 15.5888672 L 147.271174 15.5888672 L 154.847756 27.7399904 L 154.847756 15.5888672 L 156.777641 15.5888672 L 156.777641 30.5888672 L 154.500581 30.5888672 L 146.811677 18.447955 L 146.811677 30.5888672 L 144.871582 30.5888672 Z" />
         <path
             android:name="E"
-            android:fillColor="#000000"
+            android:fillColor="#ECEFF1"
             android:fillType="evenOdd"
             android:strokeWidth="1"
             android:pathData="M 273.035156 141.588867 L 282.448242 141.588867 L 282.448242 143.170898 L 274.740234 143.170898 L 274.740234 147.09082 L 281.868164 147.09082 L 281.868164 148.584961 L 274.740234 148.584961 L 274.740234 152.961914 L 282.580078 152.961914 L 282.580078 154.5 L 273.035156 154.5 Z" />
         <path
             android:name="S"
-            android:fillColor="#000000"
+            android:fillColor="#ECEFF1"
             android:fillType="evenOdd"
             android:strokeWidth="1"
             android:pathData="M146.510742,279.333984 C146.551758,280.06641 146.724608,280.661131
