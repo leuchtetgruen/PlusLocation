@@ -6,7 +6,6 @@ import android.util.Log
 import de.leuchtetgruen.pluslocation.businessobjects.POI
 import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.OpenLocationCode
 import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.extensions.center
-import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.extensions.neighbourHoodCodes
 import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.extensions.zoneCode
 import java.io.Reader
 
@@ -51,11 +50,15 @@ object POIDatabase {
     }
 
     fun nearbyPois(plusCode : OpenLocationCode) : List<POI> {
+        return dao().nearby(plusCode.zoneCode() + "%", 0)
+
+        /*
         val neighbouringCellCodes = plusCode.neighbourHoodCodes().distinct()
         val listOfPoisInNeighbouringCells = neighbouringCellCodes.map {
             dao().nearby(it + "%", 0)
         }
         return listOfPoisInNeighbouringCells.flatten().distinct()
+        */
     }
 
     fun importFromCSV(reader : Reader) {

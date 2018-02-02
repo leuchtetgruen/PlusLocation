@@ -1,11 +1,16 @@
 package de.leuchtetgruen.pluslocation.ui.activities
 
 import android.Manifest
+import android.app.SearchManager
 import android.arch.lifecycle.Observer
+import android.content.ComponentName
+import android.content.Context
 import android.location.Location
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
+import android.view.Menu
 import android.widget.RelativeLayout
+import android.widget.SearchView
 import com.google.android.gms.location.LocationListener
 import de.leuchtetgruen.pluslocation.R
 import de.leuchtetgruen.pluslocation.businessobjects.WGS84Coordinates
@@ -16,6 +21,8 @@ import de.leuchtetgruen.pluslocation.persistence.POIDatabase
 import de.leuchtetgruen.pluslocation.ui.viewmodels.CompassViewModel
 import kotlinx.android.synthetic.main.bottom_sheet_destination_info.*
 import kotlinx.android.synthetic.main.content_compass.*
+
+
 
 
 class CompassActivity : PermissionActivity(), PermissionActivity.PermissionListener, LocationListener {
@@ -44,6 +51,7 @@ class CompassActivity : PermissionActivity(), PermissionActivity.PermissionListe
 
         POIDatabase.build(this)
         setupInfoSheet()
+        setupSearch()
     }
 
     private fun setupInfoSheet() {
@@ -64,6 +72,13 @@ class CompassActivity : PermissionActivity(), PermissionActivity.PermissionListe
         })
     }
 
+    fun setupSearch() {
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(PoiListActivity.componentName(this)))
+        searchView.setIconifiedByDefault(true)
+    }
+
+
     override fun onStart() {
         super.onStart()
         addObservers()
@@ -75,12 +90,28 @@ class CompassActivity : PermissionActivity(), PermissionActivity.PermissionListe
     override fun onResume() {
         super.onResume()
         viewModel.reloadSavedData()
+        searchView.isIconified = true
     }
 
     override fun onStop() {
         locationProviderTask.stop()
         removeObservers()
         super.onStop()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        // Inflate the options menu from XML
+        val inflater = menuInflater
+        inflater.inflate(R.menu.compass_activity_menu, menu)
+
+        // Get the SearchView and set the searchable configuration
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        val searchView = menu?.findItem(R.id.menu_search)?.actionView as SearchView
+        // Assumes current activity is the searchable activity
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(ComponentName(this, PoiListActivity::class.java)))
+        searchView.setIconifiedByDefault(true)
+
+        return true
     }
 
     private fun startQueryingLocation() {

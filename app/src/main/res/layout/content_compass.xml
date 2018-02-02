@@ -9,15 +9,22 @@
     android:theme="@style/AppTheme"
     >
 
+    <android.support.v7.widget.SearchView
+        android:id="@+id/searchView"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.SearchView>
 
     <TextView
         android:id="@+id/txtDestination"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/searchView"
         android:layout_centerHorizontal="true"
         android:text="@string/STANDARD_CODE_DESCRIPTION"
-        android:layout_marginTop="10dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         android:textColor="@color/colorAccent"/>
 
@@ -39,7 +46,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        app:srcCompat="@drawable/compass_cardinal_points" />
+        app:srcCompat="@drawable/compass_cardinal_points"
+        android:background="@color/transparent"/>
 
     <ImageView
         android:id="@+id/imgCompass"

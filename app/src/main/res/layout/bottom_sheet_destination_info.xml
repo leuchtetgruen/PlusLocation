@@ -45,7 +45,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:drawableTop="@drawable/ic_place_light_24dp"
-            android:text="Choose POI" />
+            android:text="Choose Nearby POI" />
 
 
         <Button

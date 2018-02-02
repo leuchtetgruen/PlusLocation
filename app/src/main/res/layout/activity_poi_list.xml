@@ -7,23 +7,13 @@
     tools:context="de.leuchtetgruen.pluslocation.ui.activities.PoiListActivity"
     android:padding="10dp">
 
-    <EditText
-        android:id="@+id/edtQuery"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:ems="10"
-        android:inputType="textCapWords"
-        android:hint="POI Name" />
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rcvPOIs"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/edtQuery"
+        android:layout_alignParentTop="true"
         android:layout_above="@+id/txtSearchResultCount" />
 
     <TextView
@@ -33,7 +23,7 @@
         android:layout_above="@id/btnImport"
         android:textAlignment="center"
         android:paddingBottom="5dp"
-        android:text="n POIs"
+        android:text="Searching for data..."
         android:textColor="@color/colorDarkerLight"
         />
 

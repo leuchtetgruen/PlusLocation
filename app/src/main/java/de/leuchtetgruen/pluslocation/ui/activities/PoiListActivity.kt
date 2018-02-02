@@ -1,7 +1,9 @@
 package de.leuchtetgruen.pluslocation.ui.activities
 
 import android.Manifest
+import android.app.SearchManager
 import android.arch.lifecycle.Observer
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.location.Location
@@ -19,6 +21,10 @@ import de.leuchtetgruen.pluslocation.ui.adapters.PoiListAdapter
 import de.leuchtetgruen.pluslocation.ui.viewmodels.PoiListViewModel
 import kotlinx.android.synthetic.main.activity_poi_list.*
 
+
+
+
+
 class PoiListActivity : PermissionActivity(), LocationListener, PermissionActivity.PermissionListener {
 
     companion object {
@@ -27,6 +33,8 @@ class PoiListActivity : PermissionActivity(), LocationListener, PermissionActivi
 
             return intent
         }
+
+        fun componentName(context: Context): ComponentName? = ComponentName(context, PoiListActivity::class.java)
     }
 
     private val viewModel by lazy { PoiListViewModel.create(this)}
@@ -49,6 +57,13 @@ class PoiListActivity : PermissionActivity(), LocationListener, PermissionActivi
 
         rcvPOIs.layoutManager = LinearLayoutManager(this)
         rcvPOIs.adapter = adapter
+
+        // in case of search
+        val intent = intent
+        if (Intent.ACTION_SEARCH == intent.action) {
+            val query = intent.getStringExtra(SearchManager.QUERY)
+            viewModel.query(query)
+        }
     }
 
 
