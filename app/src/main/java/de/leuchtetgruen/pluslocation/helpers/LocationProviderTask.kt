@@ -38,9 +38,8 @@ class LocationProviderTask(private val act: PermissionActivity, private val loca
     }
 
     fun stop() {
-        LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, locationListener)
-
         if ((googleApiClient != null) && (googleApiClient!!.isConnected)) {
+            LocationServices.FusedLocationApi.removeLocationUpdates(googleApiClient, locationListener)
             googleApiClient!!.disconnect()
         }
     }

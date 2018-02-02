@@ -37,7 +37,7 @@ class PoiListViewModel(app: Application?) : AndroidViewModel(app!!), LifecycleOb
         }
         else {
             POIDatabase.dao().query("%$query%")
-        }.sortedBy { currentLocation.distanceInMeters(it.coordinate()) }
+        }.distinct().sortedBy { currentLocation.distanceInMeters(it.coordinate()) }
 
 
         val count = searchResults.value?.size ?: 0
@@ -51,6 +51,9 @@ class PoiListViewModel(app: Application?) : AndroidViewModel(app!!), LifecycleOb
         }
     }
 
+    fun reload() {
+        query(query)
+    }
 
 
 

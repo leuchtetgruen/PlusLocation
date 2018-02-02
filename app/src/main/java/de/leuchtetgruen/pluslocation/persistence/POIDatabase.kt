@@ -2,12 +2,10 @@ package de.leuchtetgruen.pluslocation.persistence
 
 import android.arch.persistence.room.Room
 import android.content.Context
-import android.util.Log
 import de.leuchtetgruen.pluslocation.businessobjects.POI
 import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.OpenLocationCode
 import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.extensions.center
 import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.extensions.zoneCode
-import java.io.Reader
 
 
 object POIDatabase {
@@ -32,7 +30,7 @@ object POIDatabase {
 
 
 
-        val entriesInZone = dao().nearby(zoneCode + "%", 1)
+        val entriesInZone = dao().nearby(zoneCode + "%")
         val distanceEntriesInZone = entriesInZone.sortedBy { it.coordinate().distanceInMeters(coordinate) }
 
 
@@ -50,7 +48,7 @@ object POIDatabase {
     }
 
     fun nearbyPois(plusCode : OpenLocationCode) : List<POI> {
-        return dao().nearby(plusCode.zoneCode() + "%", 0)
+        return dao().anyNearby(plusCode.zoneCode() + "%")
 
         /*
         val neighbouringCellCodes = plusCode.neighbourHoodCodes().distinct()
@@ -61,16 +59,5 @@ object POIDatabase {
         */
     }
 
-    fun importFromCSV(reader : Reader) {
-        var csvMapper = CSVMapper(reader)
-        var dao = dao()
-        Log.i("POIDatabase#import", "start")
-        csvMapper.access {
-            Log.i("POIDatabase#import", "hasData")
-            it.forEach({
-                dao.insertPoi(it)
-            })
-            Log.i("POIDatabase#import", "done")
-        }
-    }
+
 }

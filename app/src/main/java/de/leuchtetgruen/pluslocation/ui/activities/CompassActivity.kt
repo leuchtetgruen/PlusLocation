@@ -14,7 +14,6 @@ import android.widget.SearchView
 import com.google.android.gms.location.LocationListener
 import de.leuchtetgruen.pluslocation.R
 import de.leuchtetgruen.pluslocation.businessobjects.WGS84Coordinates
-import de.leuchtetgruen.pluslocation.helpers.InitialImporter
 import de.leuchtetgruen.pluslocation.helpers.LocationProviderTask
 import de.leuchtetgruen.pluslocation.helpers.ui.PermissionActivity
 import de.leuchtetgruen.pluslocation.persistence.POIDatabase
@@ -79,7 +78,7 @@ class CompassActivity : PermissionActivity(), PermissionActivity.PermissionListe
         addObservers()
         startQueryingLocation()
 
-        InitialImporter.import(this)
+        //InitialImporter.import(this)
     }
 
     override fun onResume() {

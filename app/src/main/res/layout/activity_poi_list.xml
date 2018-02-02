@@ -34,5 +34,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:drawableLeft="@drawable/ic_file_download_light_24dp"
-        android:text="Import more POIs" />
+        android:text="Import more POIs"
+        android:onClick="importCSV"/>
 </RelativeLayout>

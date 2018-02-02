@@ -1,6 +1,7 @@
 package de.leuchtetgruen.pluslocation.ui.activities
 
 import android.Manifest
+import android.app.Activity
 import android.app.SearchManager
 import android.arch.lifecycle.Observer
 import android.content.ComponentName
@@ -9,6 +10,7 @@ import android.content.Intent
 import android.location.Location
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import com.google.android.gms.location.LocationListener
 import de.leuchtetgruen.pluslocation.R
 import de.leuchtetgruen.pluslocation.businessobjects.POI
@@ -16,13 +18,13 @@ import de.leuchtetgruen.pluslocation.businessobjects.WGS84Coordinates
 import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.OpenLocationCode
 import de.leuchtetgruen.pluslocation.helpers.LocationProviderTask
 import de.leuchtetgruen.pluslocation.helpers.ui.PermissionActivity
+import de.leuchtetgruen.pluslocation.persistence.CSVImporter
 import de.leuchtetgruen.pluslocation.persistence.SavedCode
 import de.leuchtetgruen.pluslocation.ui.adapters.PoiListAdapter
 import de.leuchtetgruen.pluslocation.ui.viewmodels.PoiListViewModel
 import kotlinx.android.synthetic.main.activity_poi_list.*
-
-
-
+import java.io.BufferedReader
+import java.io.InputStreamReader
 
 
 class PoiListActivity : PermissionActivity(), LocationListener, PermissionActivity.PermissionListener {
@@ -35,6 +37,8 @@ class PoiListActivity : PermissionActivity(), LocationListener, PermissionActivi
         }
 
         fun componentName(context: Context): ComponentName? = ComponentName(context, PoiListActivity::class.java)
+
+        val REQUEST_CODE = 42
     }
 
     private val viewModel by lazy { PoiListViewModel.create(this)}
@@ -66,6 +70,24 @@ class PoiListActivity : PermissionActivity(), LocationListener, PermissionActivi
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
+        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            if (resultData != null) {
+                val uri = resultData.getData()
+                val inputStream = contentResolver.openInputStream(uri)
+                val reader = BufferedReader(InputStreamReader(inputStream))
+                btnImport.text = "Reading..."
+                val importer = CSVImporter(reader, this)
+                importer.import(
+                        { btnImport.text = String.format("%d Entries...", it) },
+                        {
+                            btnImport.text = "Done"
+                            viewModel.reload()
+                        }
+                )
+            }
+        }
+    }
 
 
     private fun startQueryingLocation() {
@@ -95,6 +117,16 @@ class PoiListActivity : PermissionActivity(), LocationListener, PermissionActivi
             SavedCode.changedCode(poi.code, poi.name, this)
             finish()
         }
+    }
+
+    fun importCSV(v : View) {
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+
+        intent.addCategory(Intent.CATEGORY_OPENABLE)
+
+        intent.type = "text/csv"
+
+        startActivityForResult(Intent.createChooser(intent, "Open CSV"), REQUEST_CODE)
     }
 
     // interface methods

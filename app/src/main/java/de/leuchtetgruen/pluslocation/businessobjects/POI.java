@@ -3,12 +3,13 @@ package de.leuchtetgruen.pluslocation.businessobjects;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
 import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.CodeArea;
 import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.OpenLocationCode;
 
-@Entity(tableName = "poi")
+@Entity(tableName = "poi", indices = {@Index("poi_code"), @Index("poi_name")})
 public class POI {
 
     @PrimaryKey(autoGenerate = true)
@@ -83,4 +84,12 @@ public class POI {
         return name + "(" + String.format("%.2f km", currentCoordinate.distanceInMeters(coordinate()) / 1000) + " " + currentCoordinate.direction(coordinate()).toString() +")";
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof  POI)) return false;
+
+        return (((POI) obj).getCode().equals(code) &&
+                ((POI) obj).getName().equals(name)
+        );
+    }
 }
