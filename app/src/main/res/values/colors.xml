@@ -10,4 +10,5 @@
     <color name="colorButton">#CFD8DC</color>
     <color name="colorDebug">#F8E888</color>
     <color name="transparent">#00000000</color>
+    <color name="colorDarkerLight">#B0BEC5</color>
 </resources>

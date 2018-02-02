@@ -21,7 +21,7 @@
         android:text="More information" />
 
     <TextView
-        android:id="@+id/txtDirections"
+        android:id="@+id/txtNearby"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/txtMoreInfo"
@@ -32,7 +32,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="75dp"
-        android:layout_below="@+id/txtDirections"
+        android:layout_below="@+id/txtNearby"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
         android:weightSum="3">
@@ -44,7 +44,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:drawableTop="@drawable/ic_place_black_24dp"
+            android:drawableTop="@drawable/ic_place_light_24dp"
             android:text="Choose POI" />
 
 
@@ -54,7 +54,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:drawableTop="@drawable/ic_keyboard_black_24dp"
+            android:drawableTop="@drawable/ic_keyboard_light_24dp"
             android:text="Change code" />
 
         <Button
@@ -63,7 +63,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:drawableTop="@drawable/ic_map_black_24dp"
+            android:drawableTop="@drawable/ic_map_light_24dp"
             android:text="Show on Map" />
 
     </LinearLayout>

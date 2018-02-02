@@ -78,4 +78,9 @@ public class POI {
     public void setUsableForNearby(boolean usableForNearby) {
         this.usableForNearby = usableForNearby;
     }
+
+    public String describe(WGS84Coordinates currentCoordinate) {
+        return name + "(" + String.format("%.2f km", currentCoordinate.distanceInMeters(coordinate()) / 1000) + " " + currentCoordinate.direction(coordinate()).toString() +")";
+    }
+
 }

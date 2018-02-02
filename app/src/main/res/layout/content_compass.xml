@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        app:srcCompat="@drawable/nesw_compass" />
+        app:srcCompat="@drawable/compass_cardinal_points" />
 
     <ImageView
         android:id="@+id/imgCompass"
@@ -47,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/compass"
+        android:src="@drawable/compass_needle"
         android:background="@color/transparent"/>
 
 

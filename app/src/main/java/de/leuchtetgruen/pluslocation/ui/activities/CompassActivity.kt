@@ -12,6 +12,7 @@ import de.leuchtetgruen.pluslocation.businessobjects.WGS84Coordinates
 import de.leuchtetgruen.pluslocation.helpers.InitialImporter
 import de.leuchtetgruen.pluslocation.helpers.LocationProviderTask
 import de.leuchtetgruen.pluslocation.helpers.ui.PermissionActivity
+import de.leuchtetgruen.pluslocation.persistence.POIDatabase
 import de.leuchtetgruen.pluslocation.ui.viewmodels.CompassViewModel
 import kotlinx.android.synthetic.main.bottom_sheet_destination_info.*
 import kotlinx.android.synthetic.main.content_compass.*
@@ -26,13 +27,14 @@ class CompassActivity : PermissionActivity(), PermissionActivity.PermissionListe
 
     // Observers
     private var distanceObserver: Observer<String> = Observer { txtDistance.text = it }
+    private var nearbyObserver : Observer<String> = Observer { txtNearby.text = it }
     private var destinationNameObeserver : Observer<String> = Observer { txtDestination.text = it }
     private var destinationCodeObserver : Observer<String> = Observer { txtDestinationCode.text = it }
     private var rotationObserver: Observer<Float> = Observer { imgCompassNESW.rotation = it!! }
     private var needleRotationObserver : Observer<Float> = Observer { imgCompass.rotation = it!! }
     private var opacityObserver : Observer<Float> = Observer {
         imgCompassNESW.alpha = it!!
-        imgCompass.alpha = it!!
+        imgCompass.alpha = it
     }
 
 
@@ -40,6 +42,7 @@ class CompassActivity : PermissionActivity(), PermissionActivity.PermissionListe
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_compass)
 
+        POIDatabase.build(this)
         setupInfoSheet()
     }
 
@@ -55,6 +58,9 @@ class CompassActivity : PermissionActivity(), PermissionActivity.PermissionListe
         })
         btnChangeCode.setOnClickListener({
             viewModel.enterCode()
+        })
+        btnChoosePOI.setOnClickListener({
+            viewModel.choosePOI()
         })
     }
 
@@ -84,6 +90,7 @@ class CompassActivity : PermissionActivity(), PermissionActivity.PermissionListe
 
     private fun addObservers() {
         viewModel.distanceString.observe(this, distanceObserver)
+        viewModel.nearbyString.observe(this, nearbyObserver)
         viewModel.compassRotation.observe(this, rotationObserver)
         viewModel.needleRotation.observe(this, needleRotationObserver)
         viewModel.compassAndNeedleOpacity.observe(this, opacityObserver)
@@ -95,6 +102,7 @@ class CompassActivity : PermissionActivity(), PermissionActivity.PermissionListe
 
     private fun removeObservers() {
         viewModel.distanceString.removeObserver(distanceObserver)
+        viewModel.nearbyString.removeObserver(nearbyObserver)
         viewModel.compassRotation.removeObserver(rotationObserver)
         viewModel.needleRotation.removeObserver(needleRotationObserver)
         viewModel.compassAndNeedleOpacity.removeObserver(opacityObserver)

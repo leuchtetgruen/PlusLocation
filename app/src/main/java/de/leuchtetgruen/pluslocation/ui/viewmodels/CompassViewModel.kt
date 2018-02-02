@@ -6,10 +6,13 @@ import android.content.Intent
 import android.hardware.SensorManager
 import android.net.Uri
 import de.leuchtetgruen.pluslocation.businessobjects.WGS84Coordinates
+import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.OpenLocationCode
 import de.leuchtetgruen.pluslocation.helpers.HeadingProviderTask
+import de.leuchtetgruen.pluslocation.persistence.POIDatabase
 import de.leuchtetgruen.pluslocation.persistence.SavedCode
 import de.leuchtetgruen.pluslocation.ui.activities.CompassActivity
 import de.leuchtetgruen.pluslocation.ui.activities.EnterCodeActivity
+import de.leuchtetgruen.pluslocation.ui.activities.PoiListActivity
 
 class CompassViewModel(private val app: Application?) : AndroidViewModel(app!!), LifecycleObserver, HeadingProviderTask.HeadingListener {
 
@@ -25,6 +28,7 @@ class CompassViewModel(private val app: Application?) : AndroidViewModel(app!!),
     private lateinit var headingProviderTask : HeadingProviderTask
 
     val distanceString : MutableLiveData<String> = MutableLiveData()
+    val nearbyString : MutableLiveData<String> = MutableLiveData()
     val compassRotation : MutableLiveData<Float> = MutableLiveData()
     val needleRotation: MutableLiveData<Float> = MutableLiveData()
     val compassAndNeedleOpacity : MutableLiveData<Float> = MutableLiveData()
@@ -64,6 +68,24 @@ class CompassViewModel(private val app: Application?) : AndroidViewModel(app!!),
 
         targetCode.value = SavedCode.savedCode(this.getApplication())
         targetName.value = SavedCode.savedName(this.getApplication())
+
+        updateNearby()
+    }
+
+    private fun updateNearby() {
+        if (targetCode.value == null) return
+
+        val closestPOIs = POIDatabase.poisNear(OpenLocationCode(targetCode.value!!) )
+
+        nearbyString.value = if (closestPOIs.isEmpty()) {
+            "No POIs nearby found"
+        }
+        else if (closestPOIs.size == 1) {
+            "POI nearby: " + closestPOIs.first().describe(targetCoordinate)
+        }
+        else {
+            "Nearby POIs : " + closestPOIs.joinToString { it.describe(targetCoordinate) }
+        }
     }
 
 
@@ -109,6 +131,10 @@ class CompassViewModel(private val app: Application?) : AndroidViewModel(app!!),
 
     fun enterCode() {
         app?.startActivity(EnterCodeActivity.intentTo(app))
+    }
+
+    fun choosePOI() {
+        app?.startActivity(PoiListActivity.intentTo(app))
     }
 
 

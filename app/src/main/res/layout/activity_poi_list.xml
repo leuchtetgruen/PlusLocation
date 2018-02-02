@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="de.leuchtetgruen.pluslocation.ui.activities.PoiListActivity"
+    android:padding="10dp">
+
+    <EditText
+        android:id="@+id/edtQuery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:ems="10"
+        android:inputType="textCapWords"
+        android:hint="POI Name" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rcvPOIs"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/edtQuery"
+        android:layout_above="@+id/txtSearchResultCount" />
+
+    <TextView
+        android:id="@+id/txtSearchResultCount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/btnImport"
+        android:textAlignment="center"
+        android:paddingBottom="5dp"
+        android:text="n POIs"
+        android:textColor="@color/colorDarkerLight"
+        />
+
+    <Button
+        android:id="@+id/btnImport"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:drawableLeft="@drawable/ic_file_download_light_24dp"
+        android:text="Import more POIs" />
+</RelativeLayout>

@@ -15,7 +15,7 @@ interface POIDao {
     @Query("select count(*) from poi")
     fun count(): Int
 
-    @Query("select * from poi where poi_code LIKE :arg0")
+    @Query("select * from poi where poi_code LIKE :arg0 and nearby = 1")
     fun nearby(codeBeginning : String) : List<POI>
 
     @Insert(onConflict = REPLACE)
