@@ -5,6 +5,7 @@ import android.content.Context
 import de.leuchtetgruen.pluslocation.businessobjects.POI
 import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.OpenLocationCode
 import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.extensions.center
+import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.extensions.neighbourHoodCodes
 import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.extensions.zoneCode
 
 
@@ -48,15 +49,12 @@ object POIDatabase {
     }
 
     fun nearbyPois(plusCode : OpenLocationCode) : List<POI> {
-        return dao().anyNearby(plusCode.zoneCode() + "%")
-
-        /*
-        val neighbouringCellCodes = plusCode.neighbourHoodCodes().distinct()
+                val neighbouringCellCodes = plusCode.neighbourHoodCodes().distinct()
         val listOfPoisInNeighbouringCells = neighbouringCellCodes.map {
-            dao().nearby(it + "%", 0)
+            dao().anyNearby(it + "%")
         }
         return listOfPoisInNeighbouringCells.flatten().distinct()
-        */
+
     }
 
 
