@@ -51,7 +51,6 @@ class CompassActivity : PermissionActivity(), PermissionActivity.PermissionListe
 
         POIDatabase.build(this)
         setupInfoSheet()
-        setupSearch()
     }
 
     private fun setupInfoSheet() {
@@ -72,13 +71,6 @@ class CompassActivity : PermissionActivity(), PermissionActivity.PermissionListe
         })
     }
 
-    fun setupSearch() {
-        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(PoiListActivity.componentName(this)))
-        searchView.setIconifiedByDefault(true)
-    }
-
-
     override fun onStart() {
         super.onStart()
         addObservers()
@@ -90,7 +82,6 @@ class CompassActivity : PermissionActivity(), PermissionActivity.PermissionListe
     override fun onResume() {
         super.onResume()
         viewModel.reloadSavedData()
-        searchView.isIconified = true
     }
 
     override fun onStop() {
