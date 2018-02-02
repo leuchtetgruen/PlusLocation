@@ -54,7 +54,7 @@ class CompassActivity : PermissionActivity(), PermissionActivity.PermissionListe
     }
 
     private fun setupInfoSheet() {
-        infoSheetBehaviour = BottomSheetBehavior.from(bottom_sheet_destination);
+        infoSheetBehaviour = BottomSheetBehavior.from(bottom_sheet_destination)
 
         btnShowSheet.setOnClickListener({
             infoSheetBehaviour.state = BottomSheetBehavior.STATE_EXPANDED
@@ -68,6 +68,9 @@ class CompassActivity : PermissionActivity(), PermissionActivity.PermissionListe
         })
         btnChoosePOI.setOnClickListener({
             viewModel.choosePOI()
+        })
+        btnSearch.setOnClickListener({
+            onSearchRequested()
         })
     }
 
