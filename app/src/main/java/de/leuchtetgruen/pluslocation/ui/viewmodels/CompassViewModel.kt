@@ -75,16 +75,23 @@ class CompassViewModel(private val app: Application?) : AndroidViewModel(app!!),
     private fun updateNearby() {
         if (targetCode.value == null) return
 
+        val targetDescription = if (targetName.value != null) {
+            targetName.value
+        }
+        else {
+            targetCode.value
+        }
+
         val closestPOIs = POIDatabase.closestPoisInAllDirections(OpenLocationCode(targetCode.value!!) )
 
         nearbyString.value = if (closestPOIs.isEmpty()) {
-            "No POIs nearby found"
+            "No POIs close to $targetDescription found"
         }
         else if (closestPOIs.size == 1) {
-            "POI nearby: " + closestPOIs.first().describe(targetCoordinate)
+            "POI close to $targetDescription: " + closestPOIs.first().describe(targetCoordinate)
         }
         else {
-            "Nearby POIs : " + closestPOIs.joinToString { it.describe(targetCoordinate) }
+            "POIs close to $targetDescription : " + closestPOIs.joinToString { it.describe(targetCoordinate) }
         }
     }
 

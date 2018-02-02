@@ -1,6 +1,7 @@
 package de.leuchtetgruen.pluslocation.ui.activities
 
 import android.arch.lifecycle.Observer
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -31,12 +32,25 @@ class EnterCodeActivity : AppCompatActivity() {
         addObservers()
     }
 
+    override fun onStart() {
+        super.onStart()
+        txtCode.setOnLongClickListener(View.OnLongClickListener {
+            paste()
+            return@OnLongClickListener true
+        })
+    }
+
     override fun onStop() {
         removeObservers()
         super.onStop()
     }
 
-
+    private fun paste() {
+        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        if (clipboard.hasPrimaryClip()) {
+            viewModel.setEnteredCode(clipboard.primaryClip.getItemAt(0).text.toString())
+        }
+    }
 
     private fun addObservers() {
         viewModel.displayedCode.observe(this, codeObserver)
