@@ -57,7 +57,7 @@ class CompassActivity : PermissionActivity(), PermissionActivity.PermissionListe
     private fun setupInfoSheet() {
         infoSheetBehaviour = BottomSheetBehavior.from(bottom_sheet_destination);
 
-        txtDestination.setOnClickListener({
+        btnShowSheet.setOnClickListener({
             infoSheetBehaviour.state = BottomSheetBehavior.STATE_EXPANDED
         })
 

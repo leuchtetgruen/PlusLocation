@@ -9,24 +9,17 @@
     android:theme="@style/AppTheme"
     >
 
-    <android.support.v7.widget.SearchView
-        android:id="@+id/searchView"
-        android:layout_marginTop="10dp"
-        android:layout_alignParentTop="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-    </android.support.v7.widget.SearchView>
 
     <TextView
         android:id="@+id/txtDestination"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/searchView"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:text="@string/STANDARD_CODE_DESCRIPTION"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-        android:textColor="@color/colorAccent"/>
+        android:textColor="@color/colorAccent"
+        android:layout_marginTop="10dp"/>
 
     <TextView
         android:id="@+id/txtDestinationCode"
@@ -47,7 +40,8 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         app:srcCompat="@drawable/compass_cardinal_points"
-        android:background="@color/transparent"/>
+        android:background="@color/transparent"
+        />
 
     <ImageView
         android:id="@+id/imgCompass"
@@ -56,7 +50,8 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:src="@drawable/compass_needle"
-        android:background="@color/transparent"/>
+        android:background="@color/transparent"
+        />
 
 
 
@@ -69,5 +64,34 @@
         android:text="10,5km"
         android:textColor="@color/colorAccent"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="6"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentBottom="true">
+
+        <android.support.v7.widget.SearchView
+            android:id="@+id/searchView"
+
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5">
+
+        </android.support.v7.widget.SearchView>
+
+        <ImageButton
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:id="@+id/btnShowSheet"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_keyboard_arrow_up_light_24dp" />
+    </LinearLayout>
+
+
 
 </RelativeLayout>
