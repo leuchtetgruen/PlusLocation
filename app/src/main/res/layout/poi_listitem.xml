@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="75dp"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/txtPOIName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="POI Name"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        />
+
+    <TextView
+        android:id="@+id/txtPOICode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/txtPOIName"
+        android:fontFamily="monospace"
+        android:text="9F4MGCC8+22" />
+
+    <TextView
+        android:id="@+id/txtDistanceSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:text="5,5km" />
+
+</RelativeLayout>

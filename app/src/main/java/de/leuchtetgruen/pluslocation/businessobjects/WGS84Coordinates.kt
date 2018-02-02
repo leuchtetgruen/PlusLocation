@@ -29,6 +29,20 @@ class WGS84Coordinates(latitude: Double, longitude: Double) : GlobalCoordinates(
             return ""
         }
 
+        fun angle() : Int {
+            return when (this) {
+                NORTH -> 0
+                NORTH_EAST -> 45
+                EAST -> 90
+                SOUTH_EAST -> 135
+                SOUTH -> 180
+                SOUTH_WEST -> 225
+                WEST -> 270
+                NORTH_WEST -> 315
+                UNKNOWN -> 0
+            }
+        }
+
         companion object {
 
             private fun bearingInRange(min: Double, max: Double, bearing: Double): Boolean {
@@ -81,6 +95,23 @@ class WGS84Coordinates(latitude: Double, longitude: Double) : GlobalCoordinates(
         return CardinalDirection.fromBearing(bearingInDegrees(otherCoordinate))
     }
 
+    fun coordinateInDirection(distanceInMeters : Int, direction : CardinalDirection) : WGS84Coordinates {
+        val angleInRad = Math.toRadians(direction.angle().toDouble())
+
+        val dLatInMeters = Math.cos(angleInRad) * distanceInMeters
+        val dLonInMeters = Math.sin(angleInRad) * distanceInMeters
+
+        /*
+         * Approximation:
+         * Delta of 1° in Longitude = 111111 Meters
+         * Delta of 1° in Latitude = 111111 Meters * cos(lat)
+         */
+        val dLatInDegrees = dLatInMeters / (111111 * Math.cos(latitude))
+        val dLonInDegrees = dLonInMeters / 111111
+
+        return WGS84Coordinates(latitude + dLatInDegrees , longitude + dLonInDegrees)
+    }
+
     override fun equals(other: Any?): Boolean {
         if (other !is WGS84Coordinates) return false
 
@@ -88,6 +119,8 @@ class WGS84Coordinates(latitude: Double, longitude: Double) : GlobalCoordinates(
                 (other.longitude == this.longitude))
 
     }
+
+
 
 
 }

@@ -6,11 +6,16 @@ import android.content.Context
 import android.content.Intent
 import android.location.Location
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import com.google.android.gms.location.LocationListener
 import de.leuchtetgruen.pluslocation.R
+import de.leuchtetgruen.pluslocation.businessobjects.POI
 import de.leuchtetgruen.pluslocation.businessobjects.WGS84Coordinates
+import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.OpenLocationCode
 import de.leuchtetgruen.pluslocation.helpers.LocationProviderTask
 import de.leuchtetgruen.pluslocation.helpers.ui.PermissionActivity
+import de.leuchtetgruen.pluslocation.persistence.SavedCode
+import de.leuchtetgruen.pluslocation.ui.adapters.PoiListAdapter
 import de.leuchtetgruen.pluslocation.ui.viewmodels.PoiListViewModel
 import kotlinx.android.synthetic.main.activity_poi_list.*
 
@@ -25,15 +30,25 @@ class PoiListActivity : PermissionActivity(), LocationListener, PermissionActivi
     }
 
     private val viewModel by lazy { PoiListViewModel.create(this)}
+    private val adapter = PoiListAdapter({
+        poiSelected(it)
+    })
+
+
+
     private lateinit var locationProviderTask: LocationProviderTask
 
     private var poiCountObserver: Observer<String> = Observer { txtSearchResultCount.text = it }
+    private var searchResultObserver : Observer<List<POI>> = Observer {  adapter.setSearchResults(it) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_poi_list)
         addObservers()
         startQueryingLocation()
+
+        rcvPOIs.layoutManager = LinearLayoutManager(this)
+        rcvPOIs.adapter = adapter
     }
 
 
@@ -51,17 +66,27 @@ class PoiListActivity : PermissionActivity(), LocationListener, PermissionActivi
 
     private fun addObservers() {
         viewModel.poiCountText.observe(this, poiCountObserver)
+        viewModel.searchResults.observe(this, searchResultObserver)
         lifecycle.addObserver(viewModel)
     }
 
     private fun removeObservers() {
         viewModel.poiCountText.removeObserver(poiCountObserver)
+        viewModel.searchResults.removeObserver(searchResultObserver)
+    }
+
+    private fun poiSelected(poi: POI?) {
+        if (poi != null) {
+            SavedCode.changedCode(poi.code, poi.name, this)
+            finish()
+        }
     }
 
     // interface methods
     override fun onLocationChanged(currentLocation: Location?) {
         if (currentLocation != null) {
-            viewModel.setCurrentPosition(WGS84Coordinates(currentLocation.latitude, currentLocation.longitude))
+            adapter.setCurrentPosition(WGS84Coordinates(currentLocation.latitude, currentLocation.longitude))
+            viewModel.setCurrentLocationCode(OpenLocationCode(currentLocation.latitude, currentLocation.longitude))
         }
 
     }

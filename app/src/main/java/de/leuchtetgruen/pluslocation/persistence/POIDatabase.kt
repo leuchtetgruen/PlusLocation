@@ -6,6 +6,7 @@ import android.util.Log
 import de.leuchtetgruen.pluslocation.businessobjects.POI
 import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.OpenLocationCode
 import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.extensions.center
+import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.extensions.neighbourHoodCodes
 import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.extensions.zoneCode
 import java.io.Reader
 
@@ -20,12 +21,19 @@ object POIDatabase {
 
     fun dao(): POIDao = appDatabase.poiDao()
 
-    fun poisNear(plusCode: OpenLocationCode): List<POI> {
+    /**
+     * This is used to show nearby POIs for a given code to give the user a better understanding of where
+     * a certain place is. It only shows pois marked to be used for this (so a cafe is not returned, an important
+     * landmark or a station however is)
+     */
+    fun closestPoisInAllDirections(plusCode: OpenLocationCode, desiredSize : Int = 3): List<POI> {
         val coordinate = plusCode.decode().center()
 
         val zoneCode = plusCode.zoneCode()
 
-        val entriesInZone = dao().nearby(zoneCode + "%")
+
+
+        val entriesInZone = dao().nearby(zoneCode + "%", 1)
         val distanceEntriesInZone = entriesInZone.sortedBy { it.coordinate().distanceInMeters(coordinate) }
 
 
@@ -39,7 +47,15 @@ object POIDatabase {
             }
         }
 
-        return distinctDirectionEntries.take(3)
+        return distinctDirectionEntries.take(desiredSize)
+    }
+
+    fun nearbyPois(plusCode : OpenLocationCode) : List<POI> {
+        val neighbouringCellCodes = plusCode.neighbourHoodCodes().distinct()
+        val listOfPoisInNeighbouringCells = neighbouringCellCodes.map {
+            dao().nearby(it + "%", 0)
+        }
+        return listOfPoisInNeighbouringCells.flatten().distinct()
     }
 
     fun importFromCSV(reader : Reader) {
