@@ -11,11 +11,8 @@ fun CodeArea.accuracyInMeters() : Double {
 }
 
 fun CodeArea.contains(coordinate : WGS84Coordinates) : Boolean {
-    val northWest = WGS84Coordinates(getNorthLatitude(), getWestLongitude())
-    val southEast = WGS84Coordinates(getSouthLatitude(), getEastLongitude())
-
-    return ((northWest.latitude <= coordinate.latitude) &&
-            (southEast.latitude >= coordinate.latitude) &&
-            (northWest.longitude <= coordinate.longitude) &&
-            (southEast.longitude >= coordinate.longitude))
+    return ((getSouthLatitude() <= coordinate.latitude) &&
+            (getNorthLatitude() >= coordinate.latitude) &&
+            (getWestLongitude() <= coordinate.longitude) &&
+            (getEastLongitude() >= coordinate.longitude))
 }

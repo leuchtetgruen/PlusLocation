@@ -17,14 +17,6 @@ class WGS84Coordinates(latitude: Double, longitude: Double) : GlobalCoordinates(
         return curve.ellipsoidalDistance
     }
 
-    fun bearingInRadians(otherCoordinate: WGS84Coordinates): Double {
-        val srcLat = Math.toRadians(this.latitude)
-        val dstLat = Math.toRadians(otherCoordinate.latitude)
-        val dLng = Math.toRadians(otherCoordinate.longitude - this.longitude)
-
-        return Math.atan2(Math.sin(dLng) * Math.cos(dstLat), Math.cos(srcLat) * Math.sin(dstLat) - Math.sin(srcLat) * Math.cos(dstLat) * Math.cos(dLng))
-    }
-
     fun bearingInDegrees(otherCoordinate: WGS84Coordinates): Double {
         val rad = bearingInRadians(otherCoordinate)
         return (Math.toDegrees(rad) + 360) % 360
@@ -34,8 +26,8 @@ class WGS84Coordinates(latitude: Double, longitude: Double) : GlobalCoordinates(
         return CardinalDirection.fromBearing(bearingInDegrees(otherCoordinate))
     }
 
-    fun coordinateInDirection(distanceInMeters : Int, direction : CardinalDirection) : WGS84Coordinates {
-        val angleInRad = Math.toRadians(direction.angle().toDouble())
+    fun coordinateInDirection(distanceInMeters : Int, angle : Double) : WGS84Coordinates {
+        val angleInRad = Math.toRadians(angle)
 
         val dLatInMeters = Math.cos(angleInRad) * distanceInMeters
         val dLonInMeters = Math.sin(angleInRad) * distanceInMeters
@@ -49,6 +41,14 @@ class WGS84Coordinates(latitude: Double, longitude: Double) : GlobalCoordinates(
         val dLonInDegrees = dLonInMeters / 111111
 
         return WGS84Coordinates(latitude + dLatInDegrees , longitude + dLonInDegrees)
+    }
+
+    private fun bearingInRadians(otherCoordinate: WGS84Coordinates): Double {
+        val srcLat = Math.toRadians(this.latitude)
+        val dstLat = Math.toRadians(otherCoordinate.latitude)
+        val dLng = Math.toRadians(otherCoordinate.longitude - this.longitude)
+
+        return Math.atan2(Math.sin(dLng) * Math.cos(dstLat), Math.cos(srcLat) * Math.sin(dstLat) - Math.sin(srcLat) * Math.cos(dstLat) * Math.cos(dLng))
     }
 
     override fun equals(other: Any?): Boolean {

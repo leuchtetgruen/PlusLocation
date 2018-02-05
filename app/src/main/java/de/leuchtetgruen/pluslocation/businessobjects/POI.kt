@@ -10,7 +10,7 @@ import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.OpenLocati
  *
  * POIs marked as "usable for nearby" are POIs that are commonly known (such as big train stations, landmarks etc.)
  * When a user chooses a destination the app will show nearby POIs to give the user a rough idea where
- * the chosen destination is. (E.g. think you have the Pluscode of a hotel and the app tells you it's close to the
+ * the chosen destination is. (E.g. think you have the PlusCode of a hotel and the app tells you it's close to the
  * main station and the zoo)
  */
 @Entity(tableName = "poi", indices = arrayOf(Index("poi_code"), Index("poi_name")))
@@ -32,7 +32,7 @@ constructor(@field:ColumnInfo(name = "poi_code")
 
     fun coordinate(): WGS84Coordinates {
         if (calculatedCoordinate == null) {
-            val area = OpenLocationCode(code!!).decode()
+            val area = OpenLocationCode(code).decode()
             calculatedCoordinate = WGS84Coordinates(area.centerLatitude, area.centerLongitude)
         }
 

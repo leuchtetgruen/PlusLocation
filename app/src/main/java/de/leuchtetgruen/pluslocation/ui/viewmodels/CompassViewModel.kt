@@ -19,28 +19,27 @@ import de.leuchtetgruen.pluslocation.ui.activities.PoiListActivity
 class CompassViewModel(private val app: Application?) : AndroidViewModel(app!!), LifecycleObserver, HeadingProviderTask.HeadingListener {
 
     companion object {
-        fun create(activity: CompassActivity) : CompassViewModel {
+        fun create(activity: CompassActivity): CompassViewModel {
             return ViewModelProviders.of(activity).get(CompassViewModel::class.java)
         }
     }
 
     private var currentCoordinate: WGS84Coordinates? = null
-    private var targetCoordinate : WGS84Coordinates? = null
+    private var targetCoordinate: WGS84Coordinates? = null
 
-    private lateinit var headingProviderTask : HeadingProviderTask
+    private lateinit var headingProviderTask: HeadingProviderTask
 
-    val distanceString : MutableLiveData<String> = MutableLiveData()
-    val nearbyString : MutableLiveData<String> = MutableLiveData()
-    val compassRotation : MutableLiveData<Float> = MutableLiveData()
+    val distanceString: MutableLiveData<String> = MutableLiveData()
+    val nearbyString: MutableLiveData<String> = MutableLiveData()
+    val compassRotation: MutableLiveData<Float> = MutableLiveData()
     val needleRotation: MutableLiveData<Float> = MutableLiveData()
-    val compassAndNeedleOpacity : MutableLiveData<Float> = MutableLiveData()
+    val compassAndNeedleOpacity: MutableLiveData<Float> = MutableLiveData()
 
-    val targetName : MutableLiveData<String> = MutableLiveData()
-    val targetCode : MutableLiveData<String> = MutableLiveData()
+    val targetName: MutableLiveData<String> = MutableLiveData()
+    val targetCode: MutableLiveData<String> = MutableLiveData()
 
 
-
-    fun updateCurrentLocation(currentCoordinate : WGS84Coordinates) {
+    fun updateCurrentLocation(currentCoordinate: WGS84Coordinates) {
         this.currentCoordinate = currentCoordinate
 
         updateDistance()
@@ -55,7 +54,7 @@ class CompassViewModel(private val app: Application?) : AndroidViewModel(app!!),
         needleRotation.value = (bearingToTarget - heading).toFloat()
     }
 
-    override fun reliabilityChanged(reliability : Int) {
+    override fun reliabilityChanged(reliability: Int) {
         compassAndNeedleOpacity.value = when (reliability) {
             SensorManager.SENSOR_STATUS_UNRELIABLE -> 0.1f
             SensorManager.SENSOR_STATUS_ACCURACY_LOW -> 0.33f
@@ -66,7 +65,7 @@ class CompassViewModel(private val app: Application?) : AndroidViewModel(app!!),
     }
 
     fun reloadSavedData() {
-        targetCoordinate  = SavedCode.savedLocation(this.getApplication())
+        targetCoordinate = SavedCode.savedLocation(this.getApplication())
 
         targetCode.value = SavedCode.savedCode(this.getApplication())
         targetName.value = SavedCode.savedName(this.getApplication())
@@ -79,20 +78,17 @@ class CompassViewModel(private val app: Application?) : AndroidViewModel(app!!),
 
         val targetDescription = if (targetName.value != null) {
             targetName.value
-        }
-        else {
+        } else {
             targetCode.value
         }
 
-        val closestPOIs = POIDatabase.closestPoisInAllDirections(OpenLocationCode(targetCode.value!!) )
+        val closestPOIs = POIDatabase.closestPoisInAllDirections(OpenLocationCode(targetCode.value!!))
 
         nearbyString.value = if (closestPOIs.isEmpty()) {
             "No POIs close to $targetDescription found"
-        }
-        else if (closestPOIs.size == 1) {
+        } else if (closestPOIs.size == 1) {
             "POI close to $targetDescription: " + describeWayToPoi(closestPOIs.first())
-        }
-        else {
+        } else {
             "POIs close to $targetDescription : " + closestPOIs.joinToString { describeWayToPoi(it) }
         }
     }
@@ -105,19 +101,17 @@ class CompassViewModel(private val app: Application?) : AndroidViewModel(app!!),
 
         if (distance > 1000) {
             distanceString.value = String.format("%.1fkm", (distance / 1000))
-        }
-        else {
+        } else {
             distanceString.value = String.format("%dm", distance.toInt())
         }
     }
 
-    private fun describeWayToPoi(poi : POI) : String {
+    private fun describeWayToPoi(poi: POI): String {
         return if (targetCoordinate == null) {
             ""
+        } else {
+            String.format(app!!.getString(R.string.poi_way_description), poi.name, targetCoordinate!!.distanceInMeters(poi.coordinate()) / 1000, targetCoordinate!!.direction(poi.coordinate()).toString())
         }
-        else {
-            String.format(app!!.getString(R.string.poi_way_description), poi.name, targetCoordinate!!.distanceInMeters(poi.coordinate()) / 1000, targetCoordinate!!.direction(poi.coordinate()).toString())     }
-
     }
 
     // Lifecycle events
@@ -135,7 +129,7 @@ class CompassViewModel(private val app: Application?) : AndroidViewModel(app!!),
 
     // Button handler
     fun showCurrentDestinationOnMap() {
-        if (targetCoordinate== null) {
+        if (targetCoordinate == null) {
             return
         }
 
