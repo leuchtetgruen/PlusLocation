@@ -1,6 +1,5 @@
 package de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.extensions
 
-import de.leuchtetgruen.pluslocation.businessobjects.CardinalDirection
 import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.OpenLocationCode
 
 fun OpenLocationCode.regionCode() : String = this.code.substring(0, 4)
@@ -9,20 +8,43 @@ fun OpenLocationCode.zoneCode() : String = this.code.substring(0, 6)
 
 fun OpenLocationCode.neighbourhoodCode() : String = this.code.substring(0, 8)
 
-/**
- * will return first 8 letters of codes in the neighbourhood by simply going 300m in all directions
- */
-fun OpenLocationCode.neighbourHoodCodes(desiredDistanceInMeters : Int = 300) : List<String> {
-    val coordinate = decode().center()
 
-    return listOf(
-            coordinate.coordinateInDirection(desiredDistanceInMeters, CardinalDirection.NORTH.angle().toDouble()),
-            coordinate.coordinateInDirection(desiredDistanceInMeters, CardinalDirection.NORTH_EAST.angle().toDouble()),
-            coordinate.coordinateInDirection(desiredDistanceInMeters, CardinalDirection.EAST.angle().toDouble()),
-            coordinate.coordinateInDirection(desiredDistanceInMeters, CardinalDirection.SOUTH_EAST.angle().toDouble()),
-            coordinate.coordinateInDirection(desiredDistanceInMeters, CardinalDirection.SOUTH.angle().toDouble()),
-            coordinate.coordinateInDirection(desiredDistanceInMeters, CardinalDirection.SOUTH_WEST.angle().toDouble()),
-            coordinate.coordinateInDirection(desiredDistanceInMeters, CardinalDirection.WEST.angle().toDouble()),
-            coordinate.coordinateInDirection(desiredDistanceInMeters, CardinalDirection.NORTH_WEST.angle().toDouble())
-    ).map { OpenLocationCode(it.latitude, it.longitude).neighbourhoodCode() }
+/**
+ * Will return all neighbourhood codes around the current neighbourhood
+ */
+fun OpenLocationCode.neighbourHoodCodes() : List<String> {
+    val myNeighbourhoodCode = neighbourhoodCode()
+
+    val shuffleLetters = myNeighbourhoodCode.substring(6, 8)
+
+    val shuffledFirstLetters = shuffleSet(OpenLocationCode.CODE_ALPHABET, shuffleLetters[0])
+    val shuffledLastLetters = shuffleSet(OpenLocationCode.CODE_ALPHABET, shuffleLetters[1])
+
+    val prefix = myNeighbourhoodCode.substring(0, 6)
+    return shuffledFirstLetters.map {
+        val firstLetter = it
+        shuffledLastLetters.map {
+            prefix + firstLetter + it
+        }
+    }.flatten().filterNot { it == this.code }
+}
+
+private fun shuffleSet(letterSet : String, elem : Char) : List<Char> {
+    val idx = letterSet.indexOf(elem)
+
+    val prevIdx = if (idx == 0) {
+        letterSet.length
+    }
+    else {
+        idx - 1
+    }
+
+    val nextIdx = if (idx == (letterSet.length - 1)) {
+        0
+    }
+    else {
+        idx + 1
+    }
+
+    return listOf(letterSet[prevIdx], letterSet[idx], letterSet[nextIdx])
 }

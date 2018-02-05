@@ -346,7 +346,7 @@ open class OpenLocationCode {
         private val PADDING_CHARACTER = '0'
 
         // The character set used to encode the values.
-        private val CODE_ALPHABET = "23456789CFGHJMPQRVWX"
+        public val CODE_ALPHABET = "23456789CFGHJMPQRVWX"
 
         // Note: The double type can't be used because of the rounding arithmetic due to floating point
         // implementation. Eg. "8.95 - 8" can give result 0.9499999999999 instead of 0.95 which
