@@ -43,7 +43,10 @@ class PoiListActivity : PermissionActivity(), LocationListener, PermissionActivi
 
     private val viewModel by lazy { PoiListViewModel.create(this)}
     private val adapter = PoiListAdapter({
-        poiSelected(it)
+        if (it != null) {
+            poiSelected(it)
+        }
+
     })
 
 
@@ -112,7 +115,7 @@ class PoiListActivity : PermissionActivity(), LocationListener, PermissionActivi
         viewModel.searchResults.removeObserver(searchResultObserver)
     }
 
-    private fun poiSelected(poi: POI?) {
+    private fun poiSelected(poi: POI) {
         if (poi != null) {
             SavedCode.changedCode(poi.code, poi.name, this)
             finish()

@@ -5,6 +5,8 @@ import android.arch.lifecycle.*
 import android.content.Intent
 import android.hardware.SensorManager
 import android.net.Uri
+import de.leuchtetgruen.pluslocation.R
+import de.leuchtetgruen.pluslocation.businessobjects.POI
 import de.leuchtetgruen.pluslocation.businessobjects.WGS84Coordinates
 import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.OpenLocationCode
 import de.leuchtetgruen.pluslocation.helpers.HeadingProviderTask
@@ -73,7 +75,7 @@ class CompassViewModel(private val app: Application?) : AndroidViewModel(app!!),
     }
 
     private fun updateNearby() {
-        if (targetCode.value == null) return
+        if ((targetCode.value == null) || (targetCoordinate == null)) return
 
         val targetDescription = if (targetName.value != null) {
             targetName.value
@@ -88,10 +90,10 @@ class CompassViewModel(private val app: Application?) : AndroidViewModel(app!!),
             "No POIs close to $targetDescription found"
         }
         else if (closestPOIs.size == 1) {
-            "POI close to $targetDescription: " + closestPOIs.first().describe(targetCoordinate)
+            "POI close to $targetDescription: " + describeWayToPoi(closestPOIs.first())
         }
         else {
-            "POIs close to $targetDescription : " + closestPOIs.joinToString { it.describe(targetCoordinate) }
+            "POIs close to $targetDescription : " + closestPOIs.joinToString { describeWayToPoi(it) }
         }
     }
 
@@ -107,6 +109,15 @@ class CompassViewModel(private val app: Application?) : AndroidViewModel(app!!),
         else {
             distanceString.value = String.format("%dm", distance.toInt())
         }
+    }
+
+    private fun describeWayToPoi(poi : POI) : String {
+        return if (targetCoordinate == null) {
+            ""
+        }
+        else {
+            String.format(app!!.getString(R.string.poi_way_description), poi.name, targetCoordinate!!.distanceInMeters(poi.coordinate()) / 1000, targetCoordinate!!.direction(poi.coordinate()).toString())     }
+
     }
 
     // Lifecycle events

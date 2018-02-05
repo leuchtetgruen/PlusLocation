@@ -3,11 +3,9 @@ package de.leuchtetgruen.pluslocation
 import de.leuchtetgruen.pluslocation.businessobjects.WGS84Coordinates
 import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.OpenLocationCode
 import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.extensions.center
-import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.extensions.contains
 import de.leuchtetgruen.pluslocation.helpers.Constants
+import org.junit.Assert.assertEquals
 import org.junit.Test
-
-import org.junit.Assert.*
 
 class OpenLocationCodeUnitTest {
     companion object {
