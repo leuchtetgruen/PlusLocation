@@ -198,7 +198,7 @@ open class OpenLocationCode {
             } else {
                 // Use the 4x5 grid for digits after 10.
                 val digitVal = CODE_ALPHABET.indexOf(decoded[digit].toInt())
-                val row = (digitVal / GRID_COLUMNS.toInt()).toInt()
+                val row = (digitVal / GRID_COLUMNS.toInt())
                 val col = digitVal % GRID_COLUMNS.toInt()
                 latPrecision = latPrecision.divide(GRID_ROWS)
                 lngPrecision = lngPrecision.divide(GRID_COLUMNS)

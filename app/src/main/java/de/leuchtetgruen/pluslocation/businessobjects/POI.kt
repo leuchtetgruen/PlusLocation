@@ -13,7 +13,7 @@ import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.OpenLocati
  * the chosen destination is. (E.g. think you have the PlusCode of a hotel and the app tells you it's close to the
  * main station and the zoo)
  */
-@Entity(tableName = "poi", indices = arrayOf(Index("poi_code"), Index("poi_name")))
+@Entity(tableName = "poi", indices = [(Index("poi_code")), (Index("poi_name"))])
 class POI @Ignore
 constructor(@field:ColumnInfo(name = "poi_code")
             var code: String, @field:ColumnInfo(name = "poi_name")

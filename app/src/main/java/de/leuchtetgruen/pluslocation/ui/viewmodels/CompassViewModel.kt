@@ -84,12 +84,10 @@ class CompassViewModel(private val app: Application?) : AndroidViewModel(app!!),
 
         val closestPOIs = POIDatabase.closestPoisInAllDirections(OpenLocationCode(targetCode.value!!))
 
-        nearbyString.value = if (closestPOIs.isEmpty()) {
-            "No POIs close to $targetDescription found"
-        } else if (closestPOIs.size == 1) {
-            "POI close to $targetDescription: " + describeWayToPoi(closestPOIs.first())
-        } else {
-            "POIs close to $targetDescription : " + closestPOIs.joinToString { describeWayToPoi(it) }
+        nearbyString.value = when {
+            closestPOIs.isEmpty() -> "No POIs close to $targetDescription found"
+            closestPOIs.size == 1 -> "POI close to $targetDescription: " + describeWayToPoi(closestPOIs.first())
+            else -> "POIs close to $targetDescription : " + closestPOIs.joinToString { describeWayToPoi(it) }
         }
     }
 

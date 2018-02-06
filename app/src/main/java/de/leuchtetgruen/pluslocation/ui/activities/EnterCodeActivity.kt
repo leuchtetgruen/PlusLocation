@@ -20,9 +20,8 @@ class EnterCodeActivity : AppCompatActivity() {
 
     companion object {
         fun intentTo(context : Context) : Intent {
-            val intent = Intent(context, EnterCodeActivity::class.java)
 
-            return intent
+            return Intent(context, EnterCodeActivity::class.java)
         }
     }
 

@@ -10,7 +10,7 @@ import kotlinx.android.synthetic.main.poi_listitem.*
 
 class PoiViewHolder(override val containerView : View?, clickHandler : (POI?) -> Unit) : RecyclerView.ViewHolder(containerView), LayoutContainer {
     val context : Context = containerView!!.context
-    var curPoi : POI? = null
+    private var curPoi : POI? = null
 
     init {
         containerView?.setOnClickListener({

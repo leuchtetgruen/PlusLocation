@@ -16,7 +16,7 @@ class PoiListViewModel(app: Application?) : AndroidViewModel(app!!), LifecycleOb
             return ViewModelProviders.of(activity).get(PoiListViewModel::class.java)
         }
 
-        val MIN_METERS_MOVED_FOR_REQUERYING = 20
+        const val MIN_METERS_MOVED_FOR_REQUERYING = 20
     }
 
     private var currentLocationCode : OpenLocationCode = OpenLocationCode(Constants.TV_TOWER_BLN_CODE)

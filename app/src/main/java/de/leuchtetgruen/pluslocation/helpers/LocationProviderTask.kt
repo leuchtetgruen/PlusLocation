@@ -23,7 +23,7 @@ class LocationProviderTask(private val act: PermissionActivity, private val loca
         buildDefaultLocationRequest()
     }
 
-    fun buildDefaultLocationRequest(interval: Int, priority: Int) {
+    fun buildLocationRequest(interval: Int, priority: Int) {
         locationRequest = LocationRequest()
         locationRequest!!.interval = interval.toLong()
         locationRequest!!.priority = priority
@@ -55,7 +55,7 @@ class LocationProviderTask(private val act: PermissionActivity, private val loca
     }
 
     private fun buildDefaultLocationRequest() {
-        buildDefaultLocationRequest(500, LocationRequest.PRIORITY_HIGH_ACCURACY)
+        buildLocationRequest(500, LocationRequest.PRIORITY_HIGH_ACCURACY)
     }
 
 
@@ -110,7 +110,7 @@ class LocationProviderTask(private val act: PermissionActivity, private val loca
 
     companion object {
 
-        private val MY_PERMISSIONS_REQUEST_FINE_LOCATION = 3457899 // the power of falling asleep on the numpad
+        private const val MY_PERMISSIONS_REQUEST_FINE_LOCATION = 3457899 // the power of falling asleep on the numpad
     }
 
 

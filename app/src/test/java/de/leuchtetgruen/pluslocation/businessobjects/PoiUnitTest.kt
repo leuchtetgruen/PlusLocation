@@ -13,17 +13,17 @@ class PoiUnitTest {
 
     @Test
     fun test_Comparison_detects_correct_match() {
-        assertTrue(tvTowerPOI.equals(POI(Constants.TV_TOWER_BLN_CODE, Constants.TV_TOWER_BLN_NAME, false)))
+        assertTrue(tvTowerPOI == POI(Constants.TV_TOWER_BLN_CODE, Constants.TV_TOWER_BLN_NAME, false))
     }
 
     @Test
     fun test_Comparison_detects_different_code() {
-        assertFalse(tvTowerPOI.equals(POI("DIFCODE", Constants.TV_TOWER_BLN_NAME, false)))
+        assertFalse(tvTowerPOI == POI("DIFCODE", Constants.TV_TOWER_BLN_NAME, false))
     }
 
     @Test
     fun test_Comparison_detects_different_name() {
-        assertFalse(tvTowerPOI.equals(POI(Constants.TV_TOWER_BLN_CODE, "Not the TV tower", false)))
+        assertFalse(tvTowerPOI == POI(Constants.TV_TOWER_BLN_CODE, "Not the TV tower", false))
     }
 
     @Test

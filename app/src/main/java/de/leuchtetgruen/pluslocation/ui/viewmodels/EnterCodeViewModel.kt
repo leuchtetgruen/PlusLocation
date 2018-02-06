@@ -38,7 +38,7 @@ class EnterCodeViewModel(app: Application?) : AndroidViewModel(app!!), Lifecycle
 
     // Button listener
     fun enteredText(text: CharSequence) {
-        if (text.equals("+")) {
+        if (text == "+") {
             if (enteredCode.indexOf("+") > 0) {
                 return
             }
@@ -48,17 +48,17 @@ class EnterCodeViewModel(app: Application?) : AndroidViewModel(app!!), Lifecycle
             }
         }
 
-        if ((enteredCode.length == 8) && (!text.equals("+"))) {
+        if ((enteredCode.length == 8) && (text != "+")) {
             return
         }
 
 
-        enteredCode = enteredCode + text
+        enteredCode += text
         updateDisplayCode()
     }
 
     fun removeChar() {
-        if (enteredCode.length == 0) {
+        if (enteredCode.isEmpty()) {
             return
         } else {
             enteredCode = enteredCode.substring(0, enteredCode.length - 1)

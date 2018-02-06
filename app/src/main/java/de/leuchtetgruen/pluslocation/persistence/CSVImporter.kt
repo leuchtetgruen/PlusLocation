@@ -6,7 +6,7 @@ import de.leuchtetgruen.pluslocation.businessobjects.POI
 import kotlinx.coroutines.experimental.async
 import java.io.Reader
 
-class CSVImporter(reader: Reader, val activity: Activity) {
+class CSVImporter(reader: Reader, private val activity: Activity) {
 
     private val csvReader = CSVReader(reader)
     private var running = false
@@ -39,14 +39,10 @@ class CSVImporter(reader: Reader, val activity: Activity) {
     fun isRunning() : Boolean = running
 
     private fun csvLineToPOI(it: Array<String>): POI? {
-        return if (it.size < 2) {
-            null
-        }
-        else if (it.size == 2) {
-            POI(it[0], it[1])
-        }
-        else {
-            POI(it[0], it[1], it[2].toInt() == 1)
+        return when {
+            it.size < 2 -> null
+            it.size == 2 -> POI(it[0], it[1])
+            else -> POI(it[0], it[1], it[2].toInt() == 1)
         }
     }
 }

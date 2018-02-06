@@ -31,14 +31,13 @@ class PoiListActivity : PermissionActivity(), LocationListener, PermissionActivi
 
     companion object {
         fun intentTo(context : Context) : Intent {
-            val intent = Intent(context, PoiListActivity::class.java)
 
-            return intent
+            return Intent(context, PoiListActivity::class.java)
         }
 
         fun componentName(context: Context): ComponentName? = ComponentName(context, PoiListActivity::class.java)
 
-        val REQUEST_CODE = 42
+        const val REQUEST_CODE = 42
     }
 
     private val viewModel by lazy { PoiListViewModel.create(this)}
