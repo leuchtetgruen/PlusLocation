@@ -23,7 +23,7 @@
         android:layout_above="@id/btnImport"
         android:textAlignment="center"
         android:paddingBottom="5dp"
-        android:text="Searching for data..."
+        android:text="@string/searching_for_data"
         android:textColor="@color/colorDarkerLight"
         />
 
@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:drawableLeft="@drawable/ic_file_download_light_24dp"
-        android:text="Import more POIs"
+        android:drawableStart="@drawable/ic_file_download_light_24dp"
+        android:text="@string/import_more_pois"
         android:onClick="importCSV"/>
 </RelativeLayout>

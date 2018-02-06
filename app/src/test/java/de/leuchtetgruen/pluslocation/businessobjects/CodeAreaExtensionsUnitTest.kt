@@ -1,4 +1,4 @@
-package de.leuchtetgruen.pluslocation
+package de.leuchtetgruen.pluslocation.businessobjects
 
 import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.OpenLocationCode
 import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.extensions.accuracyInMeters

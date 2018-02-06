@@ -172,7 +172,7 @@ open class OpenLocationCode {
                     "Method decode() could only be called on valid full codes, code was $code.")
         }
         // Strip padding and separator characters out of the code.
-        val decoded = code!!.replace(SEPARATOR.toString(), "")
+        val decoded = code.replace(SEPARATOR.toString(), "")
                 .replace(PADDING_CHARACTER.toString(), "")
 
         var digit = 0
@@ -239,7 +239,7 @@ open class OpenLocationCode {
             // use 0.3 instead of 0.5 as a multiplier.
             if (range < computeLatitudePrecision(i * 2) * 0.3) {
                 // We're done.
-                return OpenLocationCode(code!!.substring(i * 2))
+                return OpenLocationCode(code.substring(i * 2))
             }
         }
         throw IllegalArgumentException(
@@ -260,16 +260,16 @@ open class OpenLocationCode {
         referenceLatitude = clipLatitude(referenceLatitude)
         referenceLongitude = normalizeLongitude(referenceLongitude)
 
-        val digitsToRecover = SEPARATOR_POSITION - code!!.indexOf(SEPARATOR.toInt())
+        val digitsToRecover = SEPARATOR_POSITION - code.indexOf(SEPARATOR.toInt())
         // The precision (height and width) of the missing prefix in degrees.
         val prefixPrecision = Math.pow(ENCODING_BASE.toInt().toDouble(), (2 - digitsToRecover / 2).toDouble())
 
         // Use the reference location to generate the prefix.
         val recoveredPrefix = OpenLocationCode(referenceLatitude, referenceLongitude)
-                .code!!
+                .code
                 .substring(0, digitsToRecover)
         // Combine the prefix with the short code and decode it.
-        val recovered = OpenLocationCode(recoveredPrefix + code!!)
+        val recovered = OpenLocationCode(recoveredPrefix + code)
         val recoveredCodeArea = recovered.decode()
         // Work out whether the new code area is too far from the reference location. If it is, we
         // move it. It can only be out by a single precision step.
@@ -295,7 +295,7 @@ open class OpenLocationCode {
         }
 
         return OpenLocationCode(
-                recoveredLatitude, recoveredLongitude, recovered.code!!.length - 1)
+                recoveredLatitude, recoveredLongitude, recovered.code.length - 1)
     }
 
     /**
@@ -321,11 +321,11 @@ open class OpenLocationCode {
     }
 
     override fun hashCode(): Int {
-        return code?.hashCode() ?: 0
+        return code.hashCode()
     }
 
     override fun toString(): String {
-        return code!!
+        return code
     }
 
     companion object {
@@ -346,7 +346,7 @@ open class OpenLocationCode {
         private val PADDING_CHARACTER = '0'
 
         // The character set used to encode the values.
-        public val CODE_ALPHABET = "23456789CFGHJMPQRVWX"
+        val CODE_ALPHABET = "23456789CFGHJMPQRVWX"
 
         // Note: The double type can't be used because of the rounding arithmetic due to floating point
         // implementation. Eg. "8.95 - 8" can give result 0.9499999999999 instead of 0.95 which

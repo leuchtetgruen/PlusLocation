@@ -1,7 +1,5 @@
-package de.leuchtetgruen.pluslocation
+package de.leuchtetgruen.pluslocation.businessobjects
 
-import de.leuchtetgruen.pluslocation.businessobjects.CardinalDirection
-import de.leuchtetgruen.pluslocation.businessobjects.WGS84Coordinates
 import de.leuchtetgruen.pluslocation.helpers.Constants
 import org.junit.Assert.assertEquals
 import org.junit.Test

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/bottom_sheet_destination"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -31,6 +31,6 @@
         android:layout_marginTop="10dp"
         android:layout_height="wrap_content"
         android:drawableTop="@drawable/ic_map_light_24dp"
-        android:text="Show on Map" />
+        android:text="@string/show_on_map" />
 
 </RelativeLayout>

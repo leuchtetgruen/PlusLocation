@@ -76,15 +76,15 @@ class PoiListActivity : PermissionActivity(), LocationListener, PermissionActivi
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             if (resultData != null) {
-                val uri = resultData.getData()
+                val uri = resultData.data
                 val inputStream = contentResolver.openInputStream(uri)
                 val reader = BufferedReader(InputStreamReader(inputStream))
-                btnImport.text = "Reading..."
+                btnImport.text = getString(R.string.pois_reading_progress)
                 val importer = CSVImporter(reader, this)
                 importer.import(
-                        { btnImport.text = String.format("%d Entries...", it) },
+                        { btnImport.text = String.format(getString(R.string.pois_n_entries_read_progress), it) },
                         {
-                            btnImport.text = "Done"
+                            btnImport.text = getString(R.string.pois_reading_done)
                             viewModel.reload()
                         }
                 )

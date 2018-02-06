@@ -19,18 +19,17 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:fontFamily="monospace"
-            android:text="EnteredCode"
+            android:text=""
             android:textAlignment="center"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
         <TextView
-            android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/txtCode"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:text="Long tap to paste from clipboard" />
+            android:text="@string/instruction_paste_from_clipboard" />
     </RelativeLayout>
 
     <LinearLayout
@@ -41,7 +40,8 @@
         android:layout_alignParentEnd="true"
         android:orientation="horizontal"
         android:weightSum="2"
-        android:id="@+id/linearLayout">
+        android:id="@+id/linearLayout"
+        android:baselineAligned="false">
 
         <GridLayout
             android:layout_width="0dp"
@@ -240,7 +240,7 @@
                 android:layout_columnSpan="2"
                 android:layout_row="3"
                 android:layout_width="100dp"
-                android:text="del"
+                android:text="@string/del_key_caption"
                 android:onClick="removeChar"/>
 
         </GridLayout>
@@ -253,7 +253,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/linearLayout"
-        android:text="Save"
+        android:text="@string/save"
         android:onClick="save"/>
 
 </RelativeLayout>

@@ -3,8 +3,22 @@
     <string name="STANDARD_CODE">9F4MGCC5+8Q</string>
     <string name="STANDARD_CODE_DESCRIPTION">Fernsehturm Berlin</string>
     <string name="ipsum">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</string>
-    <string name="change_destination">Change destination</string>
     <string name="show_on_map">Show on map</string>
     <string name="search_hint">POIs</string>
     <string name="poi_way_description">%s (%.2f km %s)</string>
+    <string name="compass_description">Compass</string>
+    <string name="compass_needle_description">Compass needle</string>
+    <string name="search_description">search</string>
+    <string name="choose_poi_description">choose poi</string>
+    <string name="change_code_description">change code</string>
+    <string name="show_info_description">show more information</string>
+    <string name="instruction_paste_from_clipboard">Long tap to paste from clipboard</string>
+    <string name="del_key_caption">del</string>
+    <string name="save">Save</string>
+    <string name="searching_for_data">Searching for data...</string>
+    <string name="import_more_pois">Import more POIs</string>
+    <string name="search">Search</string>
+    <string name="pois_reading_progress">Reading...</string>
+    <string name="pois_n_entries_read_progress">%d Entries...</string>
+    <string name="pois_reading_done">Done</string>
 </resources>

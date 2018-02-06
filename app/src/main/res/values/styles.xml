@@ -11,10 +11,6 @@
         <item name="android:background">@color/backgroundBottomSheet</item>
     </style>
 
-    <style name="BottomSheetHeadline" parent="TextAppearance.AppCompat.Headline">
-        <item name="android:textColor">@color/colorLight</item>
-    </style>
-
     <style name="CodeButton" parent="@style/Widget.AppCompat.Button.Borderless">
         <item name="android:background">@color/colorDarkerTransparent</item>
         <item name="android:layout_margin">2dp</item>

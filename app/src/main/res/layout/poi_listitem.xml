@@ -7,7 +7,9 @@
         android:id="@+id/txtPOIName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="POI Name"
+        android:layout_toStartOf="@id/txtDistanceSmall"
+        android:layout_alignParentStart="true"
+        android:text=""
         android:textAppearance="@style/TextAppearance.AppCompat.Headline"
         />
 
@@ -18,7 +20,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/txtPOIName"
         android:fontFamily="monospace"
-        android:text="9F4MGCC8+22" />
+        android:text="" />
 
     <TextView
         android:id="@+id/txtDistanceSmall"
@@ -26,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
-        android:text="5,5km" />
+        android:layout_marginEnd="10dp"
+        android:text="" />
 
 </RelativeLayout>

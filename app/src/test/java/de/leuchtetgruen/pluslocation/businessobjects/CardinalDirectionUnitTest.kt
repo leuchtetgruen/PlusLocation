@@ -1,6 +1,5 @@
-package de.leuchtetgruen.pluslocation
+package de.leuchtetgruen.pluslocation.businessobjects
 
-import de.leuchtetgruen.pluslocation.businessobjects.CardinalDirection
 import org.junit.Assert.assertEquals
 import org.junit.Test
 

@@ -28,7 +28,7 @@ constructor(@field:ColumnInfo(name = "poi_code")
     private var calculatedCoordinate: WGS84Coordinates? = null
 
 
-    constructor(code: String, name: String) : this(code, name, false) {}
+    constructor(code: String, name: String) : this(code, name, false)
 
     fun coordinate(): WGS84Coordinates {
         if (calculatedCoordinate == null) {

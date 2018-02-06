@@ -34,23 +34,25 @@
 
 
     <ImageView
-        android:id="@+id/imgCompassNESW"
+        android:id="@+id/imgCompass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         app:srcCompat="@drawable/compass_cardinal_points"
         android:background="@color/transparent"
+        android:contentDescription="@string/compass_description"
         />
 
     <ImageView
-        android:id="@+id/imgCompass"
+        android:id="@+id/imgCompassNeedle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:src="@drawable/compass_needle"
         android:background="@color/transparent"
+        android:contentDescription="@string/compass_needle_description"
         />
 
 
@@ -61,7 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="10,5km"
+        android:text=""
         android:textColor="@color/colorAccent"
         android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
@@ -74,38 +76,42 @@
         android:layout_alignParentBottom="true">
 
         <ImageButton
-            style="@style/Base.Widget.AppCompat.Button.Borderless"
             android:id="@+id/btnSearch"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@drawable/ic_search_light_24dp" />
+            app:srcCompat="@drawable/ic_search_light_24dp"
+            android:contentDescription="@string/search_description"/>
 
         <ImageButton
-            style="@style/Base.Widget.AppCompat.Button.Borderless"
             android:id="@+id/btnChoosePOI"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@drawable/ic_place_light_24dp" />
+            app:srcCompat="@drawable/ic_place_light_24dp"
+            android:contentDescription="@string/choose_poi_description"/>
 
 
         <ImageButton
-            style="@style/Base.Widget.AppCompat.Button.Borderless"
             android:id="@+id/btnChangeCode"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@drawable/ic_keyboard_light_24dp" />
+            app:srcCompat="@drawable/ic_keyboard_light_24dp"
+            android:contentDescription="@string/change_code_description"/>
 
 
         <ImageButton
-            style="@style/Base.Widget.AppCompat.Button.Borderless"
             android:id="@+id/btnShowSheet"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@drawable/ic_keyboard_arrow_up_light_24dp" />
+            app:srcCompat="@drawable/ic_keyboard_arrow_up_light_24dp"
+            android:contentDescription="@string/show_info_description"/>
     </LinearLayout>
 
 

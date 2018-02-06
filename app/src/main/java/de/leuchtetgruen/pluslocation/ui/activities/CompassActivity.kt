@@ -22,8 +22,6 @@ import kotlinx.android.synthetic.main.bottom_sheet_destination_info.*
 import kotlinx.android.synthetic.main.content_compass.*
 
 
-
-
 class CompassActivity : PermissionActivity(), PermissionActivity.PermissionListener, LocationListener {
 
     private val viewModel by lazy { CompassViewModel.create(this)}
@@ -36,11 +34,11 @@ class CompassActivity : PermissionActivity(), PermissionActivity.PermissionListe
     private var nearbyObserver : Observer<String> = Observer { txtNearby.text = it }
     private var destinationNameObeserver : Observer<String> = Observer { txtDestination.text = it }
     private var destinationCodeObserver : Observer<String> = Observer { txtDestinationCode.text = it }
-    private var rotationObserver: Observer<Float> = Observer { imgCompassNESW.rotation = it!! }
-    private var needleRotationObserver : Observer<Float> = Observer { imgCompass.rotation = it!! }
+    private var rotationObserver: Observer<Float> = Observer { imgCompass.rotation = it!! }
+    private var needleRotationObserver : Observer<Float> = Observer { imgCompassNeedle.rotation = it!! }
     private var opacityObserver : Observer<Float> = Observer {
-        imgCompassNESW.alpha = it!!
-        imgCompass.alpha = it
+        imgCompass.alpha = it!!
+        imgCompassNeedle.alpha = it
     }
 
 
