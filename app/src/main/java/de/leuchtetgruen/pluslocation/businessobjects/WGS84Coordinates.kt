@@ -56,7 +56,10 @@ class WGS84Coordinates(latitude: Double, longitude: Double) : GlobalCoordinates(
 
         return ((other.latitude == this.latitude) &&
                 (other.longitude == this.longitude))
+    }
 
+    override fun hashCode(): Int {
+        return "$latitude$longitude".hashCode()
     }
 
 

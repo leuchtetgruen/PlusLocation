@@ -43,4 +43,8 @@ constructor(@field:ColumnInfo(name = "poi_code")
         return if (other !is POI) false else other.code == code && other.name == name
 
     }
+
+    override fun hashCode(): Int {
+        return "$code$name".hashCode()
+    }
 }
