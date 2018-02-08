@@ -18,6 +18,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
+            <!-- The following intent makes it viewable in a file browser. -->
+            <intent-filter android:label="Import POIs from CSV into PlusLocation">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/csv" />
+                <data android:mimeType="text/comma-separated-values" />
+            </intent-filter>
+
             <meta-data android:name="android.app.default_searchable"
                 android:value=".ui.activities.PoiListActivity" />
         </activity>

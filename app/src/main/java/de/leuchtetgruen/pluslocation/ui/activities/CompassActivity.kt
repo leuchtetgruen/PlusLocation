@@ -5,6 +5,7 @@ import android.app.SearchManager
 import android.arch.lifecycle.Observer
 import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.location.Location
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
@@ -17,6 +18,7 @@ import de.leuchtetgruen.pluslocation.businessobjects.WGS84Coordinates
 import de.leuchtetgruen.pluslocation.helpers.LocationProviderTask
 import de.leuchtetgruen.pluslocation.helpers.ui.PermissionActivity
 import de.leuchtetgruen.pluslocation.persistence.POIDatabase
+import de.leuchtetgruen.pluslocation.ui.CSVImporterDialog
 import de.leuchtetgruen.pluslocation.ui.viewmodels.CompassViewModel
 import kotlinx.android.synthetic.main.bottom_sheet_destination_info.*
 import kotlinx.android.synthetic.main.content_compass.*
@@ -48,6 +50,10 @@ class CompassActivity : PermissionActivity(), PermissionActivity.PermissionListe
 
         POIDatabase.build(this)
         setupInfoSheet()
+
+        if (intent.action == Intent.ACTION_VIEW) {
+            CSVImporterDialog.startFromIntent(intent, this)
+        }
     }
 
     private fun setupInfoSheet() {

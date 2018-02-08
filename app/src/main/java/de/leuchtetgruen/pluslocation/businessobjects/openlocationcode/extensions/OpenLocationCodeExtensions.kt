@@ -33,7 +33,7 @@ private fun shuffleSet(letterSet : String, elem : Char) : List<Char> {
     val idx = letterSet.indexOf(elem)
 
     val prevIdx = if (idx == 0) {
-        letterSet.length
+        letterSet.length - 1
     }
     else {
         idx - 1

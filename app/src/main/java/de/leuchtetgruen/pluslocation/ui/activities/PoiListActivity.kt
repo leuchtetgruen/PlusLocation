@@ -18,13 +18,11 @@ import de.leuchtetgruen.pluslocation.businessobjects.WGS84Coordinates
 import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.OpenLocationCode
 import de.leuchtetgruen.pluslocation.helpers.LocationProviderTask
 import de.leuchtetgruen.pluslocation.helpers.ui.PermissionActivity
-import de.leuchtetgruen.pluslocation.persistence.CSVImporter
 import de.leuchtetgruen.pluslocation.persistence.SavedCode
+import de.leuchtetgruen.pluslocation.ui.CSVImporterDialog
 import de.leuchtetgruen.pluslocation.ui.adapters.PoiListAdapter
 import de.leuchtetgruen.pluslocation.ui.viewmodels.PoiListViewModel
 import kotlinx.android.synthetic.main.activity_poi_list.*
-import java.io.BufferedReader
-import java.io.InputStreamReader
 
 
 class PoiListActivity : PermissionActivity(), LocationListener, PermissionActivity.PermissionListener {
@@ -75,18 +73,7 @@ class PoiListActivity : PermissionActivity(), LocationListener, PermissionActivi
     override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
         if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             if (resultData != null) {
-                val uri = resultData.data
-                val inputStream = contentResolver.openInputStream(uri)
-                val reader = BufferedReader(InputStreamReader(inputStream))
-                btnImport.text = getString(R.string.pois_reading_progress)
-                val importer = CSVImporter(reader, this)
-                importer.import(
-                        { btnImport.text = String.format(getString(R.string.pois_n_entries_read_progress), it) },
-                        {
-                            btnImport.text = getString(R.string.pois_reading_done)
-                            viewModel.reload()
-                        }
-                )
+                CSVImporterDialog.startFromIntent(resultData, this)
             }
         }
     }
