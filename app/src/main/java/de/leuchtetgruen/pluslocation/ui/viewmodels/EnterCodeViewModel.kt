@@ -77,7 +77,7 @@ class EnterCodeViewModel(app: Application?) : AndroidViewModel(app!!), Lifecycle
 
 
 
-        SavedCode.changedCode(enteredCode, "Manually entered destination", getApplication())
+        SavedCode.changedCode(enteredCode, enteredCode, getApplication())
     }
 
     fun setEnteredCode(code: String) {

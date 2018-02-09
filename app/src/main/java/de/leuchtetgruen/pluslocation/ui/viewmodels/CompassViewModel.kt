@@ -40,8 +40,8 @@ class CompassViewModel(private val app: Application?) : LocationHeadingViewModel
         updateDistance()
     }
 
-    override fun headingChanged(heading: Float) {
-        compassRotation.value = 360 - heading
+    override fun headingChanged(heading: Double) {
+        compassRotation.value = 360 - heading.toFloat()
 
         if ((targetCoordinate == null) || (currentCoordinate == null)) return
 

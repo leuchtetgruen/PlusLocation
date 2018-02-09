@@ -5,11 +5,13 @@ import android.content.Context
 import android.content.Intent
 import android.hardware.Camera
 import android.os.Bundle
+import android.widget.LinearLayout
 import android.widget.TextView
 import de.leuchtetgruen.pluslocation.R
-import de.leuchtetgruen.pluslocation.ui.LabelData
+import de.leuchtetgruen.pluslocation.ui.CameraOverlayData
 import de.leuchtetgruen.pluslocation.ui.viewmodels.CameraViewModel
 import kotlinx.android.synthetic.main.activity_camera.*
+import java.lang.Double.max
 
 class CameraActivity : LocationActivity() {
 
@@ -20,7 +22,11 @@ class CameraActivity : LocationActivity() {
     }
 
     // Observers
-    private var straightObserver : android.arch.lifecycle.Observer<LabelData> = Observer { updateLabel(it!!, labelStraightAhead) }
+    private var leftObserver : android.arch.lifecycle.Observer<CameraOverlayData?> = Observer { updateLabel(it, labelLeft) }
+    private var halfLeftObserver : android.arch.lifecycle.Observer<CameraOverlayData?> = Observer { updateLabel(it, labelHalfLeft) }
+    private var straightObserver : android.arch.lifecycle.Observer<CameraOverlayData?> = Observer { updateLabel(it, labelStraightAhead) }
+    private var halfRightObserver : android.arch.lifecycle.Observer<CameraOverlayData?> = Observer { updateLabel(it, labelHalfRight) }
+    private var rightObserver : android.arch.lifecycle.Observer<CameraOverlayData?> = Observer { updateLabel(it, labelRight) }
 
 
 
@@ -52,21 +58,48 @@ class CameraActivity : LocationActivity() {
         super.onStop()
     }
 
-    private fun updateLabel(it: LabelData, label: TextView?) {
-        label?.text = it.text
+    private fun updateLabel(it: CameraOverlayData?, label: TextView?) {
+        if (it == null) {
+            label?.text = ""
+            setLabelWeight(label, 1)
+            return
+        }
+
+        label?.text = it.text + "\n\n" + String.format("%.1fkm", (it.distanceInMeters / 1000))
         label?.setTextColor(it.color)
+
+        label?.textSize = max(36 - (it.distanceInMeters / 250), 14.0).toFloat()
+        setLabelWeight(label, 3)
+    }
+
+    private fun setLabelWeight(label: TextView?, weight: Int) {
+        if (label == null) return
+        val params = label!!.layoutParams as LinearLayout.LayoutParams
+        params.weight = weight.toFloat()
+
+        label.layoutParams = params
     }
 
     private fun addObservers() {
         val vm = viewModel as CameraViewModel
 
-        vm.labelDataAhead.observe(this, straightObserver)
+        vm.cameraOverlayDataLeft.observe(this, leftObserver)
+        vm.cameraOverlayDataHalfLeft.observe(this, halfLeftObserver)
+        vm.cameraOverlayDataAheadBehind.observe(this, straightObserver)
+        vm.cameraOverlayDataHalfRight.observe(this, halfRightObserver)
+        vm.cameraOverlayDataRight.observe(this, rightObserver)
 
         lifecycle.addObserver(vm)
     }
 
     private fun removeObservers() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val vm = viewModel as CameraViewModel
+
+        vm.cameraOverlayDataLeft.removeObserver(leftObserver)
+        vm.cameraOverlayDataHalfLeft.removeObserver(halfLeftObserver)
+        vm.cameraOverlayDataAheadBehind.removeObserver(straightObserver)
+        vm.cameraOverlayDataHalfRight.removeObserver(halfRightObserver)
+        vm.cameraOverlayDataRight.removeObserver(rightObserver)
     }
 
 }

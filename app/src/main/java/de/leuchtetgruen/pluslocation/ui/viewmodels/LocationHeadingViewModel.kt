@@ -8,9 +8,14 @@ import de.leuchtetgruen.pluslocation.persistence.SavedCode
 
 abstract class LocationHeadingViewModel(private val app: Application?) : AndroidViewModel(app!!), LifecycleObserver, HeadingProviderTask.HeadingListener {
 
+
     protected var currentCoordinate: WGS84Coordinates? = null
 
     protected var targetCoordinate: WGS84Coordinates? = null
+
+    protected var bearingToTarget: Double? = null
+
+    protected var distanceToTargetInMeter : Double? = null
 
     private lateinit var headingProviderTask: HeadingProviderTask
 
@@ -19,6 +24,21 @@ abstract class LocationHeadingViewModel(private val app: Application?) : Android
 
     open fun updateCurrentLocation(currentCoordinate: WGS84Coordinates) {
         this.currentCoordinate = currentCoordinate
+        calculateHeadingToTarget()
+        calculateDistanceToTarget()
+    }
+
+
+    private fun calculateHeadingToTarget() {
+        if ((currentCoordinate == null) || (targetCoordinate == null)) return
+
+        bearingToTarget = currentCoordinate!!.bearingInDegrees(targetCoordinate!!)
+    }
+
+    private fun calculateDistanceToTarget() {
+        if ((currentCoordinate == null) || (targetCoordinate == null)) return
+
+        distanceToTargetInMeter = currentCoordinate!!.distanceInMeters(targetCoordinate!!)
     }
 
     open fun reloadSavedData() {

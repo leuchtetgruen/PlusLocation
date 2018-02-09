@@ -26,7 +26,7 @@ class WGS84Coordinates(latitude: Double, longitude: Double) : GlobalCoordinates(
         return CardinalDirection.fromBearing(bearingInDegrees(otherCoordinate))
     }
 
-    fun coordinateInDirection(distanceInMeters : Int, angle : Double) : WGS84Coordinates {
+    fun coordinateInDirection(distanceInMeters : Double, angle : Double) : WGS84Coordinates {
         val angleInRad = Math.toRadians(angle)
 
         val dLatInMeters = Math.cos(angleInRad) * distanceInMeters

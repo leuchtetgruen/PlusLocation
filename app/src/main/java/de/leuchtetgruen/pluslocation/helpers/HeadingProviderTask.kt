@@ -12,7 +12,7 @@ class HeadingProviderTask(context : Context, private val headingListener: Headin
     private val sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
     interface HeadingListener {
-        fun headingChanged(heading: Float)
+        fun headingChanged(heading: Double)
         fun reliabilityChanged(reliability : Int) {Log.i("HeadingListener#reliabilityChanged", reliability.toString()) }
     }
 
@@ -31,7 +31,7 @@ class HeadingProviderTask(context : Context, private val headingListener: Headin
 
     override fun onSensorChanged(sensorEvent: SensorEvent?) {
        if (sensorEvent != null) {
-           headingListener.headingChanged(sensorEvent.values[0])
+           headingListener.headingChanged(sensorEvent.values[0].toDouble())
        }
     }
 
