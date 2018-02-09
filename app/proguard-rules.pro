@@ -19,3 +19,6 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-dontwarn com.google.android.gms.**
+-keep interface com.google.android.gms.vision.** { *; }
+-keep interface com.google.android.gms.common.** { *; }

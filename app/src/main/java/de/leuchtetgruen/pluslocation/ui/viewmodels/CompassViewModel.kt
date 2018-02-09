@@ -5,6 +5,7 @@ import android.arch.lifecycle.*
 import android.content.Intent
 import android.hardware.SensorManager
 import android.net.Uri
+import de.leuchtetgruen.pluslocation.CameraActivity
 import de.leuchtetgruen.pluslocation.R
 import de.leuchtetgruen.pluslocation.businessobjects.POI
 import de.leuchtetgruen.pluslocation.businessobjects.WGS84Coordinates
@@ -147,5 +148,8 @@ class CompassViewModel(private val app: Application?) : AndroidViewModel(app!!),
         app?.startActivity(PoiListActivity.intentTo(app))
     }
 
+    fun openCamera() {
+        app?.startActivity(CameraActivity.intentTo(app))
+    }
 
 }

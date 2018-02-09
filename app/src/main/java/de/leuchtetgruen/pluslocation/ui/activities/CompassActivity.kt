@@ -75,6 +75,9 @@ class CompassActivity : PermissionActivity(), PermissionActivity.PermissionListe
         btnSearch.setOnClickListener({
             onSearchRequested()
         })
+        btnCamera.setOnClickListener({
+            viewModel.openCamera()
+        })
     }
 
     override fun onStart() {

@@ -71,9 +71,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="4"
+        android:weightSum="5"
         android:layout_marginTop="10dp"
         android:layout_alignParentBottom="true">
+
+        <ImageButton
+            android:id="@+id/btnCamera"
+            style="@style/Base.Widget.AppCompat.Button.Borderless"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:srcCompat="@drawable/ic_photo_camera_light_24dp"
+            android:contentDescription="@string/open_camera_compass"/>
 
         <ImageButton
             android:id="@+id/btnSearch"
