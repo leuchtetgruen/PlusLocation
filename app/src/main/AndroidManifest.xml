@@ -46,7 +46,7 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity android:name=".CameraActivity"></activity>
+        <activity android:name=".ui.activities.CameraActivity"></activity>
     </application>
 
 </manifest>

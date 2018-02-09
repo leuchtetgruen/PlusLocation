@@ -1,23 +1,24 @@
 package de.leuchtetgruen.pluslocation.ui.viewmodels
 
 import android.app.Application
-import android.arch.lifecycle.*
+import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.OnLifecycleEvent
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.hardware.SensorManager
 import android.net.Uri
-import de.leuchtetgruen.pluslocation.CameraActivity
 import de.leuchtetgruen.pluslocation.R
 import de.leuchtetgruen.pluslocation.businessobjects.POI
 import de.leuchtetgruen.pluslocation.businessobjects.WGS84Coordinates
 import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.OpenLocationCode
-import de.leuchtetgruen.pluslocation.helpers.HeadingProviderTask
 import de.leuchtetgruen.pluslocation.persistence.POIDatabase
-import de.leuchtetgruen.pluslocation.persistence.SavedCode
+import de.leuchtetgruen.pluslocation.ui.activities.CameraActivity
 import de.leuchtetgruen.pluslocation.ui.activities.CompassActivity
 import de.leuchtetgruen.pluslocation.ui.activities.EnterCodeActivity
 import de.leuchtetgruen.pluslocation.ui.activities.PoiListActivity
 
-class CompassViewModel(private val app: Application?) : AndroidViewModel(app!!), LifecycleObserver, HeadingProviderTask.HeadingListener {
+class CompassViewModel(private val app: Application?) : LocationHeadingViewModel(app) {
 
     companion object {
         fun create(activity: CompassActivity): CompassViewModel {
@@ -25,10 +26,9 @@ class CompassViewModel(private val app: Application?) : AndroidViewModel(app!!),
         }
     }
 
-    private var currentCoordinate: WGS84Coordinates? = null
-    private var targetCoordinate: WGS84Coordinates? = null
 
-    private lateinit var headingProviderTask: HeadingProviderTask
+
+
 
     val distanceString: MutableLiveData<String> = MutableLiveData()
     val nearbyString: MutableLiveData<String> = MutableLiveData()
@@ -36,13 +36,11 @@ class CompassViewModel(private val app: Application?) : AndroidViewModel(app!!),
     val needleRotation: MutableLiveData<Float> = MutableLiveData()
     val compassAndNeedleOpacity: MutableLiveData<Float> = MutableLiveData()
 
-    val targetName: MutableLiveData<String> = MutableLiveData()
-    val targetCode: MutableLiveData<String> = MutableLiveData()
 
 
-    fun updateCurrentLocation(currentCoordinate: WGS84Coordinates) {
-        this.currentCoordinate = currentCoordinate
 
+    override fun updateCurrentLocation(currentCoordinate: WGS84Coordinates) {
+        super.updateCurrentLocation(currentCoordinate)
         updateDistance()
     }
 
@@ -65,12 +63,8 @@ class CompassViewModel(private val app: Application?) : AndroidViewModel(app!!),
         }
     }
 
-    fun reloadSavedData() {
-        targetCoordinate = SavedCode.savedLocation(this.getApplication())
-
-        targetCode.value = SavedCode.savedCode(this.getApplication())
-        targetName.value = SavedCode.savedName(this.getApplication())
-
+    override fun reloadSavedData() {
+        super.reloadSavedData()
         updateNearby()
     }
 
@@ -113,17 +107,10 @@ class CompassViewModel(private val app: Application?) : AndroidViewModel(app!!),
         }
     }
 
-    // Lifecycle events
+    //Lifecycle methods
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    private fun onResume() {
+    private fun onResumeCompass() {
         reloadSavedData()
-        headingProviderTask = HeadingProviderTask(getApplication(), this)
-        headingProviderTask.start()
-    }
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    private fun onStop() {
-        headingProviderTask.stop()
     }
 
     // Button handler

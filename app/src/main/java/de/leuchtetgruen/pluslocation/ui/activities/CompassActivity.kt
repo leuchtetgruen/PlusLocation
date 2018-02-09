@@ -1,22 +1,16 @@
 package de.leuchtetgruen.pluslocation.ui.activities
 
-import android.Manifest
 import android.app.SearchManager
 import android.arch.lifecycle.Observer
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.location.Location
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.view.Menu
 import android.widget.RelativeLayout
 import android.widget.SearchView
-import com.google.android.gms.location.LocationListener
 import de.leuchtetgruen.pluslocation.R
-import de.leuchtetgruen.pluslocation.businessobjects.WGS84Coordinates
-import de.leuchtetgruen.pluslocation.helpers.LocationProviderTask
-import de.leuchtetgruen.pluslocation.helpers.ui.PermissionActivity
 import de.leuchtetgruen.pluslocation.persistence.POIDatabase
 import de.leuchtetgruen.pluslocation.ui.CSVImporterDialog
 import de.leuchtetgruen.pluslocation.ui.viewmodels.CompassViewModel
@@ -24,21 +18,19 @@ import kotlinx.android.synthetic.main.bottom_sheet_destination_info.*
 import kotlinx.android.synthetic.main.content_compass.*
 
 
-class CompassActivity : PermissionActivity(), PermissionActivity.PermissionListener, LocationListener {
+class CompassActivity : LocationActivity() {
 
-    private val viewModel by lazy { CompassViewModel.create(this)}
 
-    private lateinit var locationProviderTask: LocationProviderTask
     private lateinit var infoSheetBehaviour: BottomSheetBehavior<RelativeLayout>
 
     // Observers
     private var distanceObserver: Observer<String> = Observer { txtDistance.text = it }
-    private var nearbyObserver : Observer<String> = Observer { txtNearby.text = it }
-    private var destinationNameObeserver : Observer<String> = Observer { txtDestination.text = it }
-    private var destinationCodeObserver : Observer<String> = Observer { txtDestinationCode.text = it }
+    private var nearbyObserver: Observer<String> = Observer { txtNearby.text = it }
+    private var destinationNameObeserver: Observer<String> = Observer { txtDestination.text = it }
+    private var destinationCodeObserver: Observer<String> = Observer { txtDestinationCode.text = it }
     private var rotationObserver: Observer<Float> = Observer { imgCompass.rotation = it!! }
-    private var needleRotationObserver : Observer<Float> = Observer { imgCompassNeedle.rotation = it!! }
-    private var opacityObserver : Observer<Float> = Observer {
+    private var needleRotationObserver: Observer<Float> = Observer { imgCompassNeedle.rotation = it!! }
+    private var opacityObserver: Observer<Float> = Observer {
         imgCompass.alpha = it!!
         imgCompassNeedle.alpha = it
     }
@@ -48,15 +40,20 @@ class CompassActivity : PermissionActivity(), PermissionActivity.PermissionListe
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_compass)
 
+        viewModel = CompassViewModel.create(this)
+
         POIDatabase.build(this)
         setupInfoSheet()
 
         if (intent.action == Intent.ACTION_VIEW) {
             CSVImporterDialog.startFromIntent(intent, this)
         }
+
+
     }
 
     private fun setupInfoSheet() {
+        val vm = viewModel as CompassViewModel
         infoSheetBehaviour = BottomSheetBehavior.from(bottom_sheet_destination)
 
         btnShowSheet.setOnClickListener({
@@ -64,37 +61,33 @@ class CompassActivity : PermissionActivity(), PermissionActivity.PermissionListe
         })
 
         btnShowOnMap.setOnClickListener({
-            viewModel.showCurrentDestinationOnMap()
+            vm.showCurrentDestinationOnMap()
         })
         btnChangeCode.setOnClickListener({
-            viewModel.enterCode()
+            vm.enterCode()
         })
         btnChoosePOI.setOnClickListener({
-            viewModel.choosePOI()
+            vm.choosePOI()
         })
         btnSearch.setOnClickListener({
             onSearchRequested()
         })
         btnCamera.setOnClickListener({
-            viewModel.openCamera()
+            vm.openCamera()
         })
     }
 
     override fun onStart() {
         super.onStart()
         addObservers()
-        startQueryingLocation()
-
-        //InitialImporter.import(this)
     }
 
     override fun onResume() {
         super.onResume()
-        viewModel.reloadSavedData()
+        viewModel?.reloadSavedData()
     }
 
     override fun onStop() {
-        locationProviderTask.stop()
         removeObservers()
         super.onStop()
     }
@@ -114,45 +107,33 @@ class CompassActivity : PermissionActivity(), PermissionActivity.PermissionListe
         return true
     }
 
-    private fun startQueryingLocation() {
-        locationProviderTask = LocationProviderTask(this, this)
-        requestPermission(Manifest.permission.ACCESS_FINE_LOCATION, this)
-    }
 
     private fun addObservers() {
-        viewModel.distanceString.observe(this, distanceObserver)
-        viewModel.nearbyString.observe(this, nearbyObserver)
-        viewModel.compassRotation.observe(this, rotationObserver)
-        viewModel.needleRotation.observe(this, needleRotationObserver)
-        viewModel.compassAndNeedleOpacity.observe(this, opacityObserver)
-        viewModel.targetName.observe(this, destinationNameObeserver)
-        viewModel.targetCode.observe(this, destinationCodeObserver)
+        val vm = viewModel as CompassViewModel
 
-        lifecycle.addObserver(viewModel)
+        vm.distanceString.observe(this, distanceObserver)
+        vm.nearbyString.observe(this, nearbyObserver)
+        vm.compassRotation.observe(this, rotationObserver)
+        vm.needleRotation.observe(this, needleRotationObserver)
+        vm.compassAndNeedleOpacity.observe(this, opacityObserver)
+        vm.targetName.observe(this, destinationNameObeserver)
+        vm.targetCode.observe(this, destinationCodeObserver)
+
+        lifecycle.addObserver(vm)
     }
 
     private fun removeObservers() {
-        viewModel.distanceString.removeObserver(distanceObserver)
-        viewModel.nearbyString.removeObserver(nearbyObserver)
-        viewModel.compassRotation.removeObserver(rotationObserver)
-        viewModel.needleRotation.removeObserver(needleRotationObserver)
-        viewModel.compassAndNeedleOpacity.removeObserver(opacityObserver)
-        viewModel.targetName.removeObserver(destinationNameObeserver)
-        viewModel.targetCode.removeObserver(destinationCodeObserver)
+        val vm = viewModel as CompassViewModel
+        vm.distanceString.removeObserver(distanceObserver)
+        vm.nearbyString.removeObserver(nearbyObserver)
+        vm.compassRotation.removeObserver(rotationObserver)
+        vm.needleRotation.removeObserver(needleRotationObserver)
+        vm.compassAndNeedleOpacity.removeObserver(opacityObserver)
+        vm.targetName.removeObserver(destinationNameObeserver)
+        vm.targetCode.removeObserver(destinationCodeObserver)
 
-        lifecycle.removeObserver(viewModel)
+        lifecycle.removeObserver(vm)
     }
 
-    override fun permissionGranted() {
-        locationProviderTask.start()
-    }
 
-    override fun permissionNotGranted() {
-    }
-
-    override fun onLocationChanged(location: Location?) {
-        if (location != null) {
-            viewModel.updateCurrentLocation(WGS84Coordinates(location.latitude, location.longitude))
-        }
-    }
 }
