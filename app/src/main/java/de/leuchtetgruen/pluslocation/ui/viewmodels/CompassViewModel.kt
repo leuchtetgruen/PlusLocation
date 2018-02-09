@@ -26,10 +26,6 @@ class CompassViewModel(private val app: Application?) : LocationHeadingViewModel
         }
     }
 
-
-
-
-
     val distanceString: MutableLiveData<String> = MutableLiveData()
     val nearbyString: MutableLiveData<String> = MutableLiveData()
     val compassRotation: MutableLiveData<Float> = MutableLiveData()

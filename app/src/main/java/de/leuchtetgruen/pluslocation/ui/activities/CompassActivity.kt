@@ -37,6 +37,8 @@ class CompassActivity : LocationActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_compass)
 
@@ -80,11 +82,6 @@ class CompassActivity : LocationActivity() {
     override fun onStart() {
         super.onStart()
         addObservers()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel?.reloadSavedData()
     }
 
     override fun onStop() {
