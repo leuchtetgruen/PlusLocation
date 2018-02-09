@@ -82,7 +82,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@drawable/ic_photo_camera_light_24dp"
+            app:srcCompat="@drawable/ic_camera_compass_light_24dp"
             android:contentDescription="@string/open_camera_compass"/>
 
         <ImageButton
