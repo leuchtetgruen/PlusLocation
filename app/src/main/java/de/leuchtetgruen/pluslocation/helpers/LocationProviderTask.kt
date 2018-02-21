@@ -62,7 +62,9 @@ class LocationProviderTask(private val act: PermissionActivity, private val loca
     private fun tryToRequestLocationUpdates() {
         act.requestPermission(Manifest.permission.ACCESS_FINE_LOCATION, object : PermissionActivity.PermissionListener {
             @SuppressLint("MissingPermission")
-            override fun permissionGranted() {
+            override fun permissionGranted(permission : String) {
+                if (permission != Manifest.permission.ACCESS_FINE_LOCATION) return
+
                 if (ActivityCompat.checkSelfPermission(act, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(act, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     return
                 }
@@ -78,7 +80,9 @@ class LocationProviderTask(private val act: PermissionActivity, private val loca
     private fun tryToRequestLastKnownLocation() {
         act.requestPermission(Manifest.permission.ACCESS_FINE_LOCATION, object : PermissionActivity.PermissionListener {
             @SuppressLint("MissingPermission")
-            override fun permissionGranted() {
+            override fun permissionGranted(permission : String) {
+                if (permission != Manifest.permission.ACCESS_FINE_LOCATION) return
+
                 if (ActivityCompat.checkSelfPermission(act, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(act, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     return
                 }

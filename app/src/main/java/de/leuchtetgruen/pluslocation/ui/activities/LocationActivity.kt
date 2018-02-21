@@ -29,8 +29,10 @@ open class LocationActivity : PermissionActivity(), PermissionActivity.Permissio
         super.onStop()
     }
 
-    override fun permissionGranted() {
-        locationProviderTask.start()
+    override fun permissionGranted(permission : String) {
+        if (permission == Manifest.permission.ACCESS_FINE_LOCATION) {
+            locationProviderTask.start()
+        }
     }
 
     override fun permissionNotGranted() {

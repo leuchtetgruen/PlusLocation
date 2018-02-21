@@ -11,7 +11,7 @@ open class PermissionActivity : AppCompatActivity() {
     private var requestCode: Int = 0
 
     interface PermissionListener {
-        fun permissionGranted()
+        fun permissionGranted(permission : String)
         fun permissionNotGranted()
     }
 
@@ -28,14 +28,17 @@ open class PermissionActivity : AppCompatActivity() {
                 ActivityCompat.requestPermissions(this, arrayOf(permission), requestCode)
             }
         } else {
-            listener.permissionGranted()
+            listener.permissionGranted(permission)
         }
     }
 
     override fun onRequestPermissionsResult(returnedRequestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         if (returnedRequestCode == requestCode) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                listener!!.permissionGranted()
+                permissions.forEach {
+                    listener!!.permissionGranted(it)
+                }
+
             } else {
                 listener!!.permissionNotGranted()
             }

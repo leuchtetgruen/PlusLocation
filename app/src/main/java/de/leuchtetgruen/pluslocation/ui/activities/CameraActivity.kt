@@ -1,5 +1,6 @@
 package de.leuchtetgruen.pluslocation.ui.activities
 
+import android.Manifest
 import android.arch.lifecycle.Observer
 import android.content.Context
 import android.content.Intent
@@ -35,7 +36,7 @@ class CameraActivity : LocationActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
 
-        viewModel = CameraViewModel.create(this, Camera.open())
+        requestPermission(Manifest.permission.CAMERA, this)
     }
 
     override fun onResume() {
@@ -81,6 +82,8 @@ class CameraActivity : LocationActivity() {
     }
 
     private fun addObservers() {
+        if (viewModel == null) return
+
         val vm = viewModel as CameraViewModel
 
         vm.cameraOverlayDataLeft.observe(this, leftObserver)
@@ -100,6 +103,13 @@ class CameraActivity : LocationActivity() {
         vm.cameraOverlayDataAheadBehind.removeObserver(straightObserver)
         vm.cameraOverlayDataHalfRight.removeObserver(halfRightObserver)
         vm.cameraOverlayDataRight.removeObserver(rightObserver)
+    }
+
+    override fun permissionGranted(permission : String) {
+        super.permissionGranted(permission)
+        if (permission == Manifest.permission.CAMERA) {
+            viewModel = CameraViewModel.create(this, Camera.open())
+        }
     }
 
 }

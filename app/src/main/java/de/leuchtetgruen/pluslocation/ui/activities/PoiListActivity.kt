@@ -127,7 +127,9 @@ class PoiListActivity : PermissionActivity(), LocationListener, PermissionActivi
 
     }
 
-    override fun permissionGranted() {
+    override fun permissionGranted(permission : String) {
+        if (permission != Manifest.permission.ACCESS_FINE_LOCATION) return
+
         locationProviderTask.start()
     }
 
