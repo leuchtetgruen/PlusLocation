@@ -37,5 +37,9 @@ class PoiListAdapter(private val clickHandler : (POI?) -> Unit) : RecyclerView.A
         holder?.update(poiList[position], currentPosition)
     }
 
+    fun update() {
+
+    }
+
 
 }

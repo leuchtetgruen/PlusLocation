@@ -117,7 +117,7 @@ class PoiListActivity : PermissionActivity(), LocationListener, PermissionActivi
     fun importCSV(v : View) {
         if (POINetworkDatasource.networkFiles.value == null) return
 
-        val file = POINetworkDatasource.networkFiles.value?.first() ?: return
+        val file = poiFileForCurrentLocation(POINetworkDatasource.networkFiles.value!!).first() ?: return
         val act = this
         file.buildReader {
             Looper.prepare()
@@ -128,6 +128,8 @@ class PoiListActivity : PermissionActivity(), LocationListener, PermissionActivi
             }, {
                 btnImport.text = "Done importing"
                 btnImport.isEnabled = true
+
+                viewModel.query("")
             })
 
         }
