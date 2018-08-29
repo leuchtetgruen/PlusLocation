@@ -1,3 +1,4 @@
+#TODO make script that uses this script and https://download.bbbike.org/osm/bbbike/ to autogenerate csvs on server
 require 'plus_codes/open_location_code'
 require 'csv'
 require 'pry'
