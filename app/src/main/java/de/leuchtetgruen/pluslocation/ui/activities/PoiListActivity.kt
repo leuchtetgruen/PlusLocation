@@ -1,7 +1,6 @@
 package de.leuchtetgruen.pluslocation.ui.activities
 
 import android.Manifest
-import android.app.Activity
 import android.app.SearchManager
 import android.arch.lifecycle.Observer
 import android.content.ComponentName
@@ -23,8 +22,8 @@ import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.extensions
 import de.leuchtetgruen.pluslocation.helpers.LocationProviderTask
 import de.leuchtetgruen.pluslocation.helpers.ui.PermissionActivity
 import de.leuchtetgruen.pluslocation.network.POINetworkDatasource
+import de.leuchtetgruen.pluslocation.persistence.CSVImporter
 import de.leuchtetgruen.pluslocation.persistence.SavedCode
-import de.leuchtetgruen.pluslocation.ui.CSVImporterDialog
 import de.leuchtetgruen.pluslocation.ui.adapters.PoiListAdapter
 import de.leuchtetgruen.pluslocation.ui.viewmodels.PoiListViewModel
 import kotlinx.android.synthetic.main.activity_poi_list.*
@@ -80,13 +79,7 @@ class PoiListActivity : PermissionActivity(), LocationListener, PermissionActivi
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, resultData: Intent?) {
-        if (requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            if (resultData != null) {
-                CSVImporterDialog.startFromIntent(resultData, this)
-            }
-        }
-    }
+
 
 
     private fun startQuerying() {
@@ -128,10 +121,14 @@ class PoiListActivity : PermissionActivity(), LocationListener, PermissionActivi
         val act = this
         file.buildReader {
             Looper.prepare()
-            val dialog = CSVImporterDialog(act, it)
-            act.runOnUiThread {
-                dialog.start()
-            }
+            val csvImporter = CSVImporter(it, act)
+            btnImport.isEnabled = false
+            csvImporter.import({
+                btnImport.text = String.format("%d / %d imported... (%d errors)", it, file.itemCount, csvImporter.getErrorCount())
+            }, {
+                btnImport.text = "Done importing"
+                btnImport.isEnabled = true
+            })
 
         }
 

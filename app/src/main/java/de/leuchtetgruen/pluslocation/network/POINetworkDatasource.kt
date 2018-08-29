@@ -32,9 +32,10 @@ object POINetworkDatasource {
     private fun mapJsonToNetworkPOIs(jsonList: JSONObject): List<POINetworkFile> {
         val list = ArrayList<POINetworkFile>()
         jsonList.keys().forEach {
-            val jsonArea = jsonList.getJSONObject(it)
-            val area = mapJsonAreaToCodeArea(jsonArea)
-            val networkFile = POINetworkFile(area, BASE_URL + it)
+            val jsoNObj = jsonList.getJSONObject(it)
+            val area = mapJsonAreaToCodeArea(jsoNObj)
+            val itemCount = jsoNObj.getInt("size")
+            val networkFile = POINetworkFile(area, BASE_URL + it, itemCount)
             list.add(networkFile)
         }
         return list

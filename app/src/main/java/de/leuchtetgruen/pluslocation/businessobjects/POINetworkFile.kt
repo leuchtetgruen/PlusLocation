@@ -6,7 +6,7 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.URL
 
-data class POINetworkFile(val area: CodeArea, val url: String) {
+data class POINetworkFile(val area: CodeArea, val url: String, val itemCount : Int = 0) {
 
     fun buildReader(callback : (reader : BufferedReader) -> Unit) {
         async {
