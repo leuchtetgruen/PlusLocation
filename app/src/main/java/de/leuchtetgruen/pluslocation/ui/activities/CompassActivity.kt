@@ -4,7 +4,6 @@ import android.app.SearchManager
 import android.arch.lifecycle.Observer
 import android.content.ComponentName
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.view.Menu
@@ -12,7 +11,6 @@ import android.widget.RelativeLayout
 import android.widget.SearchView
 import de.leuchtetgruen.pluslocation.R
 import de.leuchtetgruen.pluslocation.persistence.POIDatabase
-import de.leuchtetgruen.pluslocation.ui.CSVImporterDialog
 import de.leuchtetgruen.pluslocation.ui.viewmodels.CompassViewModel
 import kotlinx.android.synthetic.main.bottom_sheet_destination_info.*
 import kotlinx.android.synthetic.main.content_compass.*
@@ -46,11 +44,6 @@ class CompassActivity : LocationActivity() {
 
         POIDatabase.build(this)
         setupInfoSheet()
-
-        if (intent.action == Intent.ACTION_VIEW) {
-            CSVImporterDialog.startFromIntent(intent, this)
-        }
-
 
     }
 

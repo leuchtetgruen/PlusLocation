@@ -51,6 +51,10 @@ class PoiListViewModel(app: Application?) : AndroidViewModel(app!!), LifecycleOb
         }
     }
 
+    fun getCurrentLocationCode() : OpenLocationCode {
+        return this.currentLocationCode
+    }
+
     fun reload() {
         query(query)
     }

@@ -9,15 +9,20 @@ import android.content.Context
 import android.content.Intent
 import android.location.Location
 import android.os.Bundle
+import android.os.Looper
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import com.google.android.gms.location.LocationListener
 import de.leuchtetgruen.pluslocation.R
 import de.leuchtetgruen.pluslocation.businessobjects.POI
+import de.leuchtetgruen.pluslocation.businessobjects.POINetworkFile
 import de.leuchtetgruen.pluslocation.businessobjects.WGS84Coordinates
 import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.OpenLocationCode
+import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.extensions.center
+import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.extensions.contains
 import de.leuchtetgruen.pluslocation.helpers.LocationProviderTask
 import de.leuchtetgruen.pluslocation.helpers.ui.PermissionActivity
+import de.leuchtetgruen.pluslocation.network.POINetworkDatasource
 import de.leuchtetgruen.pluslocation.persistence.SavedCode
 import de.leuchtetgruen.pluslocation.ui.CSVImporterDialog
 import de.leuchtetgruen.pluslocation.ui.adapters.PoiListAdapter
@@ -52,12 +57,17 @@ class PoiListActivity : PermissionActivity(), LocationListener, PermissionActivi
 
     private var poiCountObserver: Observer<String> = Observer { txtSearchResultCount.text = it }
     private var searchResultObserver : Observer<List<POI>> = Observer {  adapter.setSearchResults(it) }
+    private var availablePoiFilesObserver : Observer<List<POINetworkFile>> = Observer {
+        updateButton(it)
+    }
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_poi_list)
         addObservers()
-        startQueryingLocation()
+        startQuerying()
 
         rcvPOIs.layoutManager = LinearLayoutManager(this)
         rcvPOIs.adapter = adapter
@@ -79,9 +89,10 @@ class PoiListActivity : PermissionActivity(), LocationListener, PermissionActivi
     }
 
 
-    private fun startQueryingLocation() {
+    private fun startQuerying() {
         locationProviderTask = LocationProviderTask(this, this)
         requestPermission(Manifest.permission.ACCESS_FINE_LOCATION, this)
+        POINetworkDatasource.queryLocations(this)
     }
 
     override fun onStop() {
@@ -93,12 +104,14 @@ class PoiListActivity : PermissionActivity(), LocationListener, PermissionActivi
     private fun addObservers() {
         viewModel.poiCountText.observe(this, poiCountObserver)
         viewModel.searchResults.observe(this, searchResultObserver)
+        POINetworkDatasource.networkFiles.observe(this, availablePoiFilesObserver)
         lifecycle.addObserver(viewModel)
     }
 
     private fun removeObservers() {
         viewModel.poiCountText.removeObserver(poiCountObserver)
         viewModel.searchResults.removeObserver(searchResultObserver)
+        POINetworkDatasource.networkFiles.removeObserver(availablePoiFilesObserver)
     }
 
     private fun poiSelected(poi: POI) {
@@ -109,13 +122,21 @@ class PoiListActivity : PermissionActivity(), LocationListener, PermissionActivi
     }
 
     fun importCSV(v : View) {
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        if (POINetworkDatasource.networkFiles.value == null) return
 
-        intent.addCategory(Intent.CATEGORY_OPENABLE)
+        val file = POINetworkDatasource.networkFiles.value?.first() ?: return
+        val act = this
+        file.buildReader {
+            Looper.prepare()
+            val dialog = CSVImporterDialog(act, it)
+            act.runOnUiThread {
+                dialog.start()
+            }
 
-        intent.type = "text/csv"
+        }
 
-        startActivityForResult(Intent.createChooser(intent, "Open CSV"), REQUEST_CODE)
+
+
     }
 
     // interface methods
@@ -136,6 +157,17 @@ class PoiListActivity : PermissionActivity(), LocationListener, PermissionActivi
     override fun permissionNotGranted() {
     }
 
+    private fun updateButton(networkFiles: List<POINetworkFile>?) {
+        if (networkFiles == null) return
+        val poisForLocationExist = poiFileForCurrentLocation(networkFiles).isNotEmpty()
+        btnImport.isEnabled = poisForLocationExist
+    }
 
+    private fun poiFileForCurrentLocation(networkFiles: List<POINetworkFile>) : List<POINetworkFile> {
+        val currentLocation = viewModel.getCurrentLocationCode().decode().center()
+        return networkFiles.filter{
+            it.area.contains(currentLocation)
+        }
+    }
 
 }

@@ -10,9 +10,15 @@ fun CodeArea.accuracyInMeters() : Double {
     return center().distanceInMeters(northWest)
 }
 
+
 fun CodeArea.contains(coordinate : WGS84Coordinates) : Boolean {
-    return ((getSouthLatitude() <= coordinate.latitude) &&
-            (getNorthLatitude() >= coordinate.latitude) &&
-            (getWestLongitude() <= coordinate.longitude) &&
-            (getEastLongitude() >= coordinate.longitude))
+    val minLat = Math.min(getSouthLatitude(), getNorthLatitude())
+    val maxLat = Math.max(getSouthLatitude(), getNorthLatitude())
+    val minLon = Math.min(getEastLongitude(), getWestLongitude())
+    val maxLon = Math.max(getEastLongitude(), getWestLongitude())
+
+    return ((minLat <= coordinate.latitude) &&
+            (maxLat >= coordinate.latitude) &&
+            (minLon <= coordinate.longitude) &&
+            (maxLon >= coordinate.longitude))
 }

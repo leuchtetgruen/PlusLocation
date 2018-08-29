@@ -16,7 +16,7 @@
     <string name="del_key_caption">del</string>
     <string name="save">Save</string>
     <string name="searching_for_data">Searching for data...</string>
-    <string name="import_more_pois">Import more POIs</string>
+    <string name="import_more_pois">Import POIs for this area</string>
     <string name="search">Search</string>
     <string name="pois_reading_progress">Reading...</string>
     <string name="pois_n_entries_read_progress">%d Entries...</string>

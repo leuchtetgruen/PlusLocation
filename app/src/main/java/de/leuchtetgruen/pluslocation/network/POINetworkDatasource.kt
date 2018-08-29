@@ -1,35 +1,31 @@
 package de.leuchtetgruen.pluslocation.network
 
+import android.app.Activity
+import android.arch.lifecycle.MutableLiveData
 import de.leuchtetgruen.pluslocation.businessobjects.POINetworkFile
-import de.leuchtetgruen.pluslocation.businessobjects.WGS84Coordinates
 import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.CodeArea
-import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.extensions.contains
 import kotlinx.coroutines.experimental.async
 import org.json.JSONObject
 import java.math.BigDecimal
 import java.net.URL
 
-class POINetworkDatasource {
-    companion object {
+object POINetworkDatasource {
+
         val BASE_URL = "http://leuchtetgruen.de/pluslocation/"
         val INDEX_URL = BASE_URL + "index.json"
-    }
 
-    fun findSourcesForLocation(location : WGS84Coordinates, callback: (files : List<POINetworkFile>) -> Unit) {
-        allLocations {
-            val filteredList = it.filter {
-                it.area.contains(location)
-            }
-            callback(filteredList)
-        }
-    }
 
-    fun allLocations(callback: (files : List<POINetworkFile>) -> Unit) {
+    val networkFiles : MutableLiveData<List<POINetworkFile>> = MutableLiveData()
+
+
+    fun queryLocations(activity: Activity) {
         async {
             val jsonString = URL(INDEX_URL).readText()
             val jsonList = JSONObject(jsonString)
             val locations = mapJsonToNetworkPOIs(jsonList)
-            callback(locations)
+            activity.runOnUiThread {
+                networkFiles.setValue(locations)
+            }
         }
     }
 
@@ -49,6 +45,7 @@ class POINetworkDatasource {
         val lonMin = BigDecimal(jsonArea.getDouble("lon_min"))
         val latMax = BigDecimal(jsonArea.getDouble("lat_max"))
         val lonMax = BigDecimal(jsonArea.getDouble("lon_max"))
+        //TODO dont use codearea but a more fitting model - bounding box
         return CodeArea(latMax, lonMax, latMin, lonMin)
     }
 }
