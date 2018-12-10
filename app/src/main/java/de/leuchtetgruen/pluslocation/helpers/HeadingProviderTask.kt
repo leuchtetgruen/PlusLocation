@@ -17,7 +17,7 @@ class HeadingProviderTask(context : Context, private val headingListener: Headin
     }
 
     fun start() {
-        val sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION)
+        val sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
         sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_GAME)
     }
 
@@ -31,7 +31,15 @@ class HeadingProviderTask(context : Context, private val headingListener: Headin
 
     override fun onSensorChanged(sensorEvent: SensorEvent?) {
        if (sensorEvent != null) {
-           headingListener.headingChanged(sensorEvent.values[0].toDouble())
+           val orientation = FloatArray(3)
+           val rMat = FloatArray(9)
+
+           SensorManager.getRotationMatrixFromVector( rMat, sensorEvent.values );
+           // get the azimuth value (orientation[0]) in degree
+           val heading = ( Math.toDegrees(SensorManager.getOrientation( rMat, orientation )[0].toDouble()) + 360 ) % 360
+           headingListener.headingChanged(heading.toDouble())
+
+           //headingListener.headingChanged(sensorEvent.values[0].toDouble())
        }
     }
 
