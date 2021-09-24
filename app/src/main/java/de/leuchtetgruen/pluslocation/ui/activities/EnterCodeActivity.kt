@@ -47,7 +47,7 @@ class EnterCodeActivity : AppCompatActivity() {
     private fun paste() {
         val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         if (clipboard.hasPrimaryClip()) {
-            viewModel.setEnteredCode(clipboard.primaryClip.getItemAt(0).text.toString())
+            viewModel.setEnteredCode(clipboard.primaryClip?.getItemAt(0)?.text.toString())
         }
     }
 

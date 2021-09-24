@@ -21,13 +21,13 @@ object SavedCode {
 
     fun savedCode(context : Context) : String {
         val sharedPreferences = context.getSharedPreferences(PREFERENCE_FILE, Context.MODE_PRIVATE)
-        return sharedPreferences.getString(CODE, Constants.TV_TOWER_BLN_CODE)
+        return sharedPreferences.getString(CODE, Constants.TV_TOWER_BLN_CODE) ?: ""
     }
 
     fun savedLocation(context : Context) : WGS84Coordinates = OpenLocationCode(savedCode(context)).decode().center()
 
     fun savedName(context : Context) : String {
         val sharedPreferences = context.getSharedPreferences(PREFERENCE_FILE, Context.MODE_PRIVATE)
-        return sharedPreferences.getString(NAME, Constants.TV_TOWER_BLN_NAME)
+        return sharedPreferences.getString(NAME, Constants.TV_TOWER_BLN_NAME) ?: ""
     }
 }

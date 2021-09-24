@@ -26,19 +26,20 @@ class PoiListAdapter(private val clickHandler : (POI?) -> Unit) : RecyclerView.A
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): PoiViewHolder {
+    override fun getItemCount(): Int = poiList.size
+
+
+    fun update() {
+
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, p1: Int): PoiViewHolder {
         val view: View = LayoutInflater.from(parent?.context).inflate(R.layout.poi_listitem, parent, false)
         return PoiViewHolder(view, clickHandler)
     }
 
-    override fun getItemCount(): Int = poiList.size
-
-    override fun onBindViewHolder(holder: PoiViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: PoiViewHolder, position: Int) {
         holder?.update(poiList[position], currentPosition)
-    }
-
-    fun update() {
-
     }
 
 

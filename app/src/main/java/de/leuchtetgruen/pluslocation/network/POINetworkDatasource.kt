@@ -4,7 +4,10 @@ import android.app.Activity
 import android.arch.lifecycle.MutableLiveData
 import de.leuchtetgruen.pluslocation.businessobjects.POINetworkFile
 import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.CodeArea
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+//import kotlinx.coroutines.experimental.async
 import org.json.JSONObject
 import java.math.BigDecimal
 import java.net.URL
@@ -19,7 +22,7 @@ object POINetworkDatasource {
 
 
     fun queryLocations(activity: Activity) {
-        async {
+        CoroutineScope(Dispatchers.Default).async  {
             val jsonString = URL(INDEX_URL).readText()
             val jsonList = JSONObject(jsonString)
             val locations = mapJsonToNetworkPOIs(jsonList)

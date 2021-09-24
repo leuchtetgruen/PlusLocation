@@ -8,7 +8,7 @@ import de.leuchtetgruen.pluslocation.businessobjects.WGS84Coordinates
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.poi_listitem.*
 
-class PoiViewHolder(override val containerView : View?, clickHandler : (POI?) -> Unit) : RecyclerView.ViewHolder(containerView), LayoutContainer {
+class PoiViewHolder(override val containerView : View, clickHandler : (POI?) -> Unit) : RecyclerView.ViewHolder(containerView), LayoutContainer {
     val context : Context = containerView!!.context
     private var curPoi : POI? = null
 

@@ -4,7 +4,10 @@ import android.app.Activity
 import com.opencsv.CSVReader
 import de.leuchtetgruen.pluslocation.businessobjects.POI
 import de.leuchtetgruen.pluslocation.businessobjects.openlocationcode.OpenLocationCode
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+//import kotlinx.coroutines.experimental.async
 import java.io.Reader
 
 class CSVImporter(reader: Reader, private val activity: Activity) {
@@ -19,7 +22,7 @@ class CSVImporter(reader: Reader, private val activity: Activity) {
 
     fun import(progress : (count : Int) -> Unit, done : () -> Unit) {
         try {
-            async {
+            CoroutineScope(Dispatchers.Default).async  {
                 var i = 0
                 running = true
                 csvReader.iterator().forEach {

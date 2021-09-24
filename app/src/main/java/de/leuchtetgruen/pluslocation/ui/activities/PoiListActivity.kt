@@ -74,7 +74,7 @@ class PoiListActivity : PermissionActivity(), LocationListener, PermissionActivi
         // in case of search
         val intent = intent
         if (Intent.ACTION_SEARCH == intent.action) {
-            val query = intent.getStringExtra(SearchManager.QUERY)
+            val query = intent.getStringExtra(SearchManager.QUERY) ?: ""
             viewModel.query(query)
         }
     }
